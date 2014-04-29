@@ -29,7 +29,7 @@ if (! $res && file_exists("../main.inc.php")) $res=@include("../main.inc.php");
 if (! $res && file_exists("../../main.inc.php")) $res=@include("../../main.inc.php");
 if (! $res && file_exists("../../../main.inc.php")) $res=@include("../../../main.inc.php");
 if (! $res) die("Include of main fails");
-	
+
 // Class
 dol_include_once("/accountingex/core/lib/account.lib.php");
 dol_include_once("/accountingex/class/accountingaccount.class.php");
@@ -58,7 +58,7 @@ if ($action == 'add') {
 		$result = $db->query ( $sql );
 		$obj = $db->fetch_object ( $result );
 		$cpt = 0;
-		
+
 	$accounting->fk_pcg_version = $obj->pcg_version;
 	$accounting->pcg_type = GETPOST ( 'pcgType' );
 	$accounting->pcg_subtype = GETPOST ( 'pcgSubType' );
@@ -66,9 +66,9 @@ if ($action == 'add') {
 	$accounting->account_parent = GETPOST ( 'AccountParent', 'int' );
 	$accounting->label = GETPOST ( 'Label', 'alpha' );
 	$accounting->active = 1;
-	
+
 	$e_accounting = $accounting;
-	
+
 	$res = $accounting->create ( $user );
 	if ($res == 0) {
 	} else {
@@ -87,22 +87,22 @@ if ($action == 'add') {
 else if ($action == 'edit') {
 	if (! GETPOST ( 'cancel', 'alpha' )) {
 		$result = $accounting->fetch ( $id );
-		
+
 		$sql = 'SELECT pcg_version FROM ' . MAIN_DB_PREFIX . 'accounting_system WHERE rowid=' . $conf->global->CHARTOFACCOUNTS;
 		$result2 = $db->query ( $sql );
 		$obj = $db->fetch_object ( $result2 );
 		$cpt = 0;
-		
-		
+
+
 		$accounting->fk_pcg_version = $obj->pcg_version;
 		$accounting->pcg_type = GETPOST ( 'pcgType' );
 		$accounting->pcg_subtype = GETPOST ( 'pcgSubType' );
 		$accounting->account_number = GETPOST ( 'AccountNumber', 'int' );
 		$accounting->account_parent = GETPOST ( 'AccountParent', 'int' );
 		$accounting->label = GETPOST ( 'Label', 'alpha' );
-		
+
 		$result = $accounting->update ( $user );
-		
+
 		if ($result > 0) {
 			header ( "Location: " . $_SERVER ["PHP_SELF"] . "?id=" . $id );
 			exit ();
@@ -114,18 +114,18 @@ else if ($action == 'edit') {
 		exit ();
 	}
 } else if ($action == 'disable') {
-	
+
 	$result = $accounting->fetch ( $id );
 	if (!empty($accounting->id)) {
 		$result = $accounting->account_desactivate ( $user );
 	}
-	
+
 	$action = 'update';
 	if ($result < 0) {
 		setEventMessage ( $accounting->error, 'errors' );
 	}
 } else if ($action == 'enable') {
-	
+
 	$result = $accounting->fetch ( $id );
 
 	if (!empty($accounting->id)) {
@@ -165,7 +165,7 @@ $htmlacc = new FormVentilation ( $db );
 $linkback='<a href="'.DOL_URL_ROOT.'/accountingex/admin/account.php">'.$langs->trans("BackToChartofaccounts").'</a>';
 
 if ($action == 'create') {
-	
+	$resql=$db->query('SELECT dlb_accountingaccount.rowid, dlb_accountingaccount.account_number, dlb_accountingaccount.label FROM dlb_accountingaccount JOIN dlb_accounting_system ON fk_pcg_version=pcg_version WHERE dlb_accounting_system.rowid=2');
 	print_fiche_titre($langs->trans('NewAccount'));
 	
 	print '<form name="add" action="' . $_SERVER ["PHP_SELF"] . '" method="POST">' . "\n";
@@ -180,7 +180,24 @@ if ($action == 'create') {
 	print '<td><input name="Label" size="70" value="' . $accounting->label . '"</td></tr>';
 	print '<tr><td>' . $langs->trans ( "Accountparent" ) . '</td>';
 	print '<td>';
-	print $htmlacc->select_account_parent ( $accounting->account_parent, 'AccountParent' );
+	if ($resql)
+    	{
+		$num = $db->num_rows($resql);
+        	$i = 0;
+        	if ($num)
+        	{
+			print '<select name=AccountParent>';
+			while ($i < $num)
+            		{
+				$obj = $db->fetch_object($resql);
+                		if ($obj)
+                		{
+					print '<option value='.$obj->account_number.'>'.$obj->account_number.' - '.$obj->label.'</option>';
+                		}
+                		$i++;
+            		}
+        	}
+    	}
 	print '</td></tr>';
 	print '<tr><td>' . $langs->trans ( "Pcgtype" ) . '</td>';
 	print '<td>';
@@ -237,7 +254,24 @@ else if ($id)
 			print '<td><input name="Label" size="70" value="' . $accounting->label . '"</td></tr>';
 			print '<tr><td>' . $langs->trans ( "Accountparent" ) . '</td>';
 			print '<td>';
-			print $htmlacc->select_account_parent ( $accounting->account_parent, 'AccountParent' );
+			$resql=$db->query('SELECT dlb_accountingaccount.rowid, dlb_accountingaccount.account_number, dlb_accountingaccount.label FROM dlb_accountingaccount JOIN dlb_accounting_system ON fk_pcg_version=pcg_version WHERE dlb_accounting_system.rowid=2');
+			if ($resql)
+			{
+				$num = $db->num_rows($resql);
+				$i = 0;
+				if ($num){
+				   print '<select name=AccountParent>';
+				      while ($i < $num)
+				      {
+						$obj = $db->fetch_object($resql);
+					     if ($obj)
+					   {
+							print '<option value='.$obj->account_number.'>'.$obj->account_number.' - '.$obj->label.'</option>';
+						}
+						$i++;
+					}
+				}
+			}
 			print '</td></tr>';
 			print '<tr><td>' . $langs->trans ( "Pcgtype" ) . '</td>';
 			print '<td>';
