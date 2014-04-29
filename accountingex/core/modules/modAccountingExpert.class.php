@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) 2010-2011 Regis Houssin        <regis@dolibarr.fr>
- * Copyright (C) 2013      Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013      Alexandre Spangaro   <alexandre.spangaro@gmail.com>
+ * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
  *    \brief      Module to activate Accounting Expert module
  */
 
-include_once(DOL_DOCUMENT_ROOT ."/core/modules/DolibarrModules.class.php");
+dol_include_once("/core/modules/DolibarrModules.class.php");
 
 
 /**
@@ -86,6 +86,8 @@ class modAccountingExpert extends DolibarrModules
     $this->const[11] = array("ACCOUNTINGEX_MODELCSV","chaine","0");
     $this->const[12] = array("ACCOUNTINGEX_LENGTH_GACCOUNT","chaine","");
 		$this->const[13] = array("ACCOUNTINGEX_LENGTH_AACCOUNT","chaine","");
+    $this->const[14] = array("LIMIT_LIST_VENTILATION","chaine","50");
+		$this->const[15] = array("LIST_SORT_VENTILATION","chaine","DESC");
 		
     
     // Css
@@ -382,6 +384,19 @@ class modAccountingExpert extends DolibarrModules
 		            'url'=>'/accountingex/admin/thirdpartyaccount.php',
 		            'langs'=>'accountingex@accountingex',
 		            'position'=>144,
+		            'enabled'=>1,
+		            'perms'=>'$user->rights->accountingex->admin',
+		            'target'=>'',
+		            'user'=>0);
+     $r++;
+     
+     $this->menu[$r]=array(  'fk_menu'=>'r=15',
+		            'type'=>'left',
+		            'titre'=>'MenuTools',
+		            'mainmenu'=>'accounting',
+		            'url'=>'/accountingex/admin/productaccount.php',
+		            'langs'=>'accountingex@accountingex',
+		            'position'=>145,
 		            'enabled'=>1,
 		            'perms'=>'$user->rights->accountingex->admin',
 		            'target'=>'',
