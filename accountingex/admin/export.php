@@ -76,7 +76,7 @@ if ($action == 'delete')
 		print $db->error();
 	}
 }
- 
+
 if ($action == 'update' || $action == 'add')
 {
 	$constname = GETPOST('constname','alpha');
@@ -109,14 +109,14 @@ $form=new Form($db);
 print_fiche_titre($langs->trans('ConfigAccountingExpert'));
 
 $head = admin_account_prepare_head ( $accounting );
-		
+
 dol_fiche_head ( $head, 'card', $langs->trans ( "Export" ), 0, 'cron' );
 
 print '<table class="noborder" width="100%">';
 
 /*
  *  Select Export Model CSV
- *  
+ *
  */
 print '<form action="'.$_SERVER["PHP_SELF"].'" method="POST">';
 print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'" />';
@@ -140,13 +140,13 @@ print '<option value="0"';
       if($conf->global->ACCOUNTINGEX_MODELCSV == 0)
       {
         print ' selected="selected"';
-      } 
+      }
 print '>'.$langs->trans("Modelcsv_normal").'</option>';
 print '<option value="1"';
       if($conf->global->ACCOUNTINGEX_MODELCSV == 1)
       {
         print ' selected="selected"';
-      } 
+      }
 print '>'.$langs->trans("Modelcsv_CEGID").'</option>';
 print "</select>";
 print "</td></tr>";
@@ -176,15 +176,15 @@ foreach ($list as $key)
 
 	print '<form action="index.php" method="POST">';
 	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
-	
+
 	print '<input type="hidden" name="action" value="update">';
 	print '<input type="hidden" name="consttype" value="string">';
 	print '<input type="hidden" name="constname" value="'.$key.'">';
-	
+
 	print '<tr '.$bc[$var].' class="value">';
 
 	// Param
-	$libelle = $langs->trans($key); 
+	$libelle = $langs->trans($key);
 	print '<td>'.$libelle;
 	//print ' ('.$key.')';
 	print "</td>\n";
@@ -196,7 +196,7 @@ foreach ($list as $key)
 	print '<input type="submit" class="button" value="'.$langs->trans('Modify').'" name="button"> &nbsp; ';
 	print "</td></tr>\n";
 	print '</form>';
-	
+
 	$i++;
 }
 

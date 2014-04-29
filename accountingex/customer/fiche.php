@@ -3,7 +3,7 @@
  * Copyright (C) 2005-2006 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013      Olivier Geffroy      <jeff@jeffinfo.com>
  * Copyright (C) 2013      Florian Henry	      <florian.henry@open-concept.pro>
- * Copyright (C) 2013      Alexandre Spangaro   <alexandre.spangaro@fidurex.fr> 
+ * Copyright (C) 2013      Alexandre Spangaro   <alexandre.spangaro@fidurex.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  *      \ingroup    Accounting Expert
  *      \brief      Page fiche ventilation
  */
- 
+
 // Dolibarr environment
 $res=@include("../main.inc.php");
 if (! $res && file_exists("../main.inc.php")) $res=@include("../main.inc.php");
@@ -83,8 +83,8 @@ $result = $db->query($sql);
 if ($result)
 {
   $num = $db->num_rows($result);
-  $i = 0; 
-  
+  $i = 0;
+
   while ($i < $num)
     {
       $row = $db->fetch_row($result);
@@ -125,11 +125,11 @@ if($_GET["id"])
             $objp = $db->fetch_object($result);
 
 
-            
+
                 print '<form action="fiche.php?id='.$_GET["id"].'" method="post">'."\n";
                 print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
                 print '<input type="hidden" name="action" value="ventil">';
-            
+
 
 
             print_fiche_titre("Ventilation");
@@ -148,10 +148,10 @@ if($_GET["id"])
             print '<tr><td width="20%">'.$langs->trans("Account").'</td><td>';
             print $cgs[$objp->fk_code_ventilation];
             print '<tr><td width="20%">'.$langs->trans("NewAccount").'</td><td>';
-            print $form->selectarray("codeventil",$cgs, $cgn[$objp->code_sell]);            
+            print $form->selectarray("codeventil",$cgs, $cgn[$objp->code_sell]);
             print '</td></tr>';
             print '<tr><td>&nbsp;</td><td><input type="submit" class="button" value="'.$langs->trans("Update").'"></td></tr>';
-            
+
             print '</table>';
             print '</form>';
         }

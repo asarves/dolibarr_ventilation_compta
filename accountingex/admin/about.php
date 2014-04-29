@@ -53,7 +53,7 @@ $form=new Form($db);
 print_fiche_titre($langs->trans('ConfigAccountingExpert'));
 
 $head = admin_account_prepare_head($accounting);
-		
+
 dol_fiche_head($head,'card',$langs->trans("About"),0,'cron');
 
 

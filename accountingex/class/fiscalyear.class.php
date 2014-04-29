@@ -47,7 +47,7 @@ class Accountancy
 
 	var $statuts=array();
 	var $statuts_short=array();
-	
+
  /**
 	* Constructor
 	*
@@ -87,7 +87,7 @@ class Accountancy
 		$sql.= ", ".$this->statut;
 		$sql.= ", ".$conf->entity;
 		$sql.= ")";
-    
+
     $this->db->begin();
 
     dol_syslog(get_class($this)."::create sql=".$sql, LOG_DEBUG);
@@ -117,7 +117,7 @@ class Accountancy
         $this->db->commit();
         return $this->rowid;
     }
-        
+
     /*
 		dol_syslog(get_class($this)."::create sql=".$sql, LOG_DEBUG);
 		$result = $this->db->query($sql);

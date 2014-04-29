@@ -3,7 +3,7 @@
  * Copyright (C) 2004      Eric Seigne          <eric.seigne@ryxeo.com>
  * Copyright (C) 2004      Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr>  
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ if (!$user->rights->accountingex->access) accessforbidden();
 /*
  * View
  */
- 
+
 llxHeader('',$langs->trans("Ventilation"));
 
 if($_POST["action"] == 'ventil')
@@ -65,14 +65,14 @@ if($_POST["action"] == 'ventil')
     $mesLignesCochees=$_POST['mesCasesCochees'];
     $mesCodesVentilChoisis = $_POST['codeventil'];
     $cpt = 0;
-    foreach($mesLignesCochees as $maLigneCochee) 
+    foreach($mesLignesCochees as $maLigneCochee)
       {
       //print '<div><font color="red">id selectionnee : '.$monChoix."</font></div>";
       $maLigneCourante = split("_", $maLigneCochee);
       $monId = $maLigneCourante[0];
       $monNumLigne = $maLigneCourante[1];
       $monCompte = $mesCodesVentilChoisis[$monNumLigne];
-  
+
       $sql = " UPDATE ".MAIN_DB_PREFIX."facture_fourn_det";
       $sql .= " SET fk_code_ventilation = ".$monCompte;
       $sql .= " WHERE rowid = ".$monId;
@@ -81,13 +81,13 @@ if($_POST["action"] == 'ventil')
       {
             print '<div><font color="green">'.$langs->trans("Lineofinvoice").' '.$monId.' '.$langs->trans("VentilatedinAccount").' : '.$monCompte.'</font></div>';
       }
-      else 
+      else
       {
            print '<div><font color="red">'.$langs->trans("ErrorDB").' : '.$langs->trans("Lineofinvoice").' '.$monId.' '.$langs->trans("NotVentilatedinAccount").' : '.$monCompte.'<br/> <pre>'.$sql.'</pre></font></div>';
       }
-  
-      $cpt++; 
-  
+
+      $cpt++;
+
       }
     }
     else
@@ -97,7 +97,7 @@ if($_POST["action"] == 'ventil')
     print '<div><font color="red">'.$langs->trans("EndProcessing").'</font></div>';
   }
 
-/* 
+/*
  * Liste des comptes
  */
 
@@ -114,8 +114,8 @@ $cgn = array();
 if ($resultCompte)
 {
   $numCompte = $db->num_rows($resultCompte);
-  $iCompte = 0; 
-  
+  $iCompte = 0;
+
   while ($iCompte < $numCompte)
     {
       $rowCompte = $db->fetch_row($resultCompte);
@@ -150,8 +150,8 @@ $result = $db->query($sql);
 if ($result)
 {
   $num_lignes = $db->num_rows($result);
-  $i = 0; 
-  
+  $i = 0;
+
   print_barre_liste("Lignes de facture fournisseurs à ventiler",$page,"liste.php","",$sortfield,$sortorder,'',$num_lignes);
 
   print '<td align="left"><br><b>'.$langs->trans("DescVentilTodoSupplier").'</b></br></td>';
@@ -169,10 +169,10 @@ if ($result)
   print '<td align="center">'.$langs->trans("IntoAccount").'</td>';
   print '<td align="center">'.$langs->trans("Ventilate").'</td>';
   print "</tr>\n";
-  
+
   $facturefourn_static=new FactureFournisseur($db);
 	$productfourn_static=new ProductFournisseur($db);
-	$form = new Form($db);           
+	$form = new Form($db);
 
   $var=True;
   while ($i < min($num_lignes, $limit))
@@ -180,7 +180,7 @@ if ($result)
       $objp = $db->fetch_object($result);
       $var=!$var;
       print "<tr $bc[$var]>";
-      
+
       // Ref facture
   		$facturefourn_static->ref=$objp->ref;
   		$facturefourn_static->id=$objp->facid;
@@ -194,19 +194,19 @@ if ($result)
   		if ($productfourn_static->id) print $productfourn_static->getNomUrl(1);
   		else print '&nbsp;';
   		print '</td>';
-    
+
       // print '<td><a href="'.DOL_URL_ROOT.'/fourn/facture/fiche.php?facid='.$objp->facid.'">'.$objp->ref.'</a></td>';
 
       // print '<td><a href="'.DOL_URL_ROOT.'/fourn/facture/fiche.php?facid='.$objp->facid.'">'.$objp->ref_supplier.'</a></td>';
-      
+
       print '<td>'.dol_trunc($objp->product_label,24).'</td>';
 
-      print '<td>'.stripslashes(nl2br($objp->description)).'</td>';                       
+      print '<td>'.stripslashes(nl2br($objp->description)).'</td>';
 
       print '<td align="right">';
       print price($objp->price);
       print '</td>';
-      
+
       print '<td align="right">';
       print $objp->code_buy;
       print '</td>';
@@ -225,7 +225,7 @@ if ($result)
     }
 
 print '<tr><td colspan="8">&nbsp;</td></tr><tr><td colspan="8" align="center"><input type="submit" class="butAction" value="'.$langs->trans("Ventiler").'"></td></tr>';
-  
+
 print "</table>";
 
 	print '</form>';

@@ -3,7 +3,7 @@
  * Copyright (C) 2007-2010	Jean Heimburger		  <jean@tiaris.info>
  * Copyright (C) 2011		    Juanjo Menent		    <jmenent@2byte.es>
  * Copyright (C) 2012		    Regis Houssin		    <regis@dolibarr.fr>
- * Copyright (C) 2013-2014  Alexandre Spangaro  <alexandre.spangaro@gmail.com> 
+ * Copyright (C) 2013-2014  Alexandre Spangaro  <alexandre.spangaro@gmail.com>
  * Copyright (C) 2013-2014  Olivier Geffroy     <jeff@jeffinfo.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
  *		\ingroup    Accounting Expert
  *		\brief      Page with purchases journal
  */
- 
+
 // Dolibarr environment
 $res=@include("../main.inc.php");
 if (! $res && file_exists("../main.inc.php")) $res=@include("../main.inc.php");
@@ -163,7 +163,7 @@ if (GETPOST('action') == 'writeBookKeeping')
 		foreach ($tabttc[$key] as $k => $mt)
 		{
 		    // get compte id and label
-		   
+
 			    $bookkeeping = new BookKeeping($db);
 			    $bookkeeping->doc_date = $val["date"];
 			    $bookkeeping->doc_ref = $val["ref"];
@@ -181,7 +181,7 @@ if (GETPOST('action') == 'writeBookKeeping')
 
 			    $bookkeeping->create();
 			}
-		
+
 		// product
 		foreach ($tabht[$key] as $k => $mt)
 		{
@@ -217,8 +217,8 @@ if (GETPOST('action') == 'writeBookKeeping')
 		    if ($mt)
 		    {
 			    // get compte id and label
-			  
-			    
+
+
 				    $bookkeeping = new BookKeeping($db);
 				    $bookkeeping->doc_date = $val["date"];
 				    $bookkeeping->doc_ref = $val["ref"];
@@ -245,23 +245,23 @@ if (GETPOST('action') == 'writeBookKeeping')
 if (GETPOST('action') == 'export_csv')
 {
   $sep = $conf->global->ACCOUNTINGEX_SEPARATORCSV;
-  
+
   header( 'Content-Type: text/csv' );
   header( 'Content-Disposition: attachment;filename=journal_achats.csv');
-	
+
   if ($conf->global->ACCOUNTINGEX_MODELCSV == 1) // Modèle Cegid Expert
   {
     foreach ($tabfac as $key => $val)
   	{
   	  $date = dol_print_date($db->jdate($val["date"]),'%d%m%Y');
-  		
+
       // product
   		foreach ($tabht[$key] as $k => $mt)
   		{
         $companystatic->id=$tabcompany[$key]['id'];
 	    	$companystatic->name=$tabcompany[$key]['name'];
 	    	$companystatic->client=$tabcompany[$key]['code_client'];
-        
+
   			if ($mt)
   			{
   				print $date.$sep;
@@ -275,7 +275,7 @@ if (GETPOST('action') == 'export_csv')
   				print "\n";
   			}
   		}
-  		
+
       // vat
   		//var_dump($tabtva);
   		foreach ($tabtva[$key] as $k => $mt)
@@ -312,11 +312,11 @@ if (GETPOST('action') == 'export_csv')
     foreach ($tabfac as $key => $val)
   	{
   	  $date = dol_print_date($db->jdate($val["date"]),'day');
-  		
+
       $companystatic->id=$tabcompany[$key]['id'];
 	    $companystatic->name=$tabcompany[$key]['name'];
 	    $companystatic->client=$tabcompany[$key]['code_client'];
-      
+
       // product
   		foreach ($tabht[$key] as $k => $mt)
   		{
@@ -348,7 +348,7 @@ if (GETPOST('action') == 'export_csv')
   		}
   		print "\n";
   	}
-  }  
+  }
 }
 
 
@@ -375,7 +375,7 @@ report_header($nom,$nomlink,$period,$periodlink,$description,$builddate,$exportl
 	print '<input type="button" class="button" style="float: right;" value="Export CSV" onclick="launch_export();" />';
 
   print '<input type="button" class="button" value="'.$langs->trans("WriteBookKeeping").'" onclick="writeBookKeeping();" />';
-	
+
 	print '
 	<script type="text/javascript">
 		function launch_export() {
@@ -394,7 +394,7 @@ report_header($nom,$nomlink,$period,$periodlink,$description,$builddate,$exportl
 	 * Show result array
 	 */
   print '<br><br>';
-  
+
 	$i = 0;
 	print "<table class=\"noborder\" width=\"100%\">";
 	print "<tr class=\"liste_titre\">";
@@ -418,9 +418,9 @@ report_header($nom,$nomlink,$period,$periodlink,$description,$builddate,$exportl
 		$invoicestatic->id=$key;
 		$invoicestatic->ref=$val["ref"];
 		$invoicestatic->type=$val["type"];
-    
-    $date = dol_print_date($db->jdate($val["date"]),'day');		
-		
+
+    $date = dol_print_date($db->jdate($val["date"]),'day');
+
 		// product
 		foreach ($tabht[$key] as $k => $mt)
 		{
@@ -462,7 +462,7 @@ report_header($nom,$nomlink,$period,$periodlink,$description,$builddate,$exportl
 		{
 		    $companystatic->id=$tabcompany[$key]['id'];
     	  $companystatic->name=$tabcompany[$key]['name'];
-    	  
+
 		    print "<td>".length_accounta($k);
 		    print "</td><td>".$langs->trans("ThirdParty");
 		    print ' ('.$companystatic->getNomUrl(0,'supplier',16).')';

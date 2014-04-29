@@ -1,8 +1,8 @@
 <?php
 /* Copyright (C) 2004       Rodolphe Quiedeville  <rodolphe@quiedeville.org>
  * Copyright (C) 2005       Simon TOSSER          <simon@kornog-computing.com>
- * Copyright (C) 2013-2014  Alexandre Spangaro    <alexandre.spangaro@gmail.com> 
- * Copyright (C) 2013-2014  Olivier Geffroy       <jeff@jeffinfo.com> 
+ * Copyright (C) 2013-2014  Alexandre Spangaro    <alexandre.spangaro@gmail.com>
+ * Copyright (C) 2013-2014  Olivier Geffroy       <jeff@jeffinfo.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ if ($_POST["action"] == 'ventil' && $user->rights->accountingex->access)
   $sql .= " SET fk_code_ventilation = ".$_POST["codeventil"];
   $sql .= " WHERE rowid = ".$_GET["id"];
   dol_syslog ( "Accountancy Expert :: Card Supplier :: Update sql=" . $sql, LOG_DEBUG );
-  
+
   $db->query($sql);
 }
 
@@ -86,8 +86,8 @@ $result = $db->query($sql);
 if ($result)
 {
   $num = $db->num_rows($result);
-  $i = 0; 
-  
+  $i = 0;
+
   while ($i < $num)
     {
       $row = $db->fetch_row($result);
@@ -111,33 +111,33 @@ if($_GET["id"])
   $sql.= " LEFT JOIN ".MAIN_DB_PREFIX."product as p ON p.rowid = l.fk_product";
   $sql .= " , ".MAIN_DB_PREFIX."facture_fourn as f";
   $sql .= " WHERE f.rowid = l.fk_facture_fourn AND f.fk_statut > 0 AND l.rowid = ".$_GET["id"];
-   
+
   $result = $db->query($sql);
   if ($result)
   {
       $num_lignes = $db->num_rows($result);
-      $i = 0; 
-      
+      $i = 0;
+
       if ($num_lignes)
 	    {
 	       $objp = $db->fetch_object($result);
-	  
+
 	       print '<form action="fiche.php?id='.$_GET["id"].'" method="post">'."\n";
 	       print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 	       print '<input type="hidden" name="action" value="ventil">';
-	         
+
 	       print_fiche_titre("Ventilation");
-	  
+
 	       print '<table class="border" width="100%" cellspacing="0" cellpadding="4">';
-	  
+
       	 // ref invoice
-      	  
+
       	 print '<tr><td>'.$langs->trans("BillsSuppliers").'</td>';
       	 $facturefournisseur_static->ref=$objp->facnumber;
       	 $facturefournisseur_static->id=$objp->facid;
       	 print '<td>'.$facturefournisseur_static->getNomUrl(1).'</td>';
          print '</tr>';
-      	  
+
          print '<tr><td width="20%">Ligne</td>';
       	 print '<td>'.stripslashes(nl2br($objp->description)).'</td></tr>';
       	 print '<tr><td width="20%">'.$langs->trans("ProductLabel").'</td>';
@@ -148,7 +148,7 @@ if($_GET["id"])
       	 print $form->selectarray("codeventil",$cgs, $objp->fk_code_ventilation);
       	 print '</td></tr>';
       	 print '<tr><td>&nbsp;</td><td><input type="submit" class="button" value="'.$langs->trans("Update").'"></td></tr>';
-               
+
       	 print '</table>';
       	 print '</form>';
 	    }

@@ -1,6 +1,6 @@
 <?php
 /* Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,12 +50,12 @@ function admin_account_prepare_head($object)
 	$head[$h][1] = $langs->trans("Export");
 	$head[$h][2] = 'export';
 	$h++;
-  
+
   $head[$h][0] = dol_buildpath('/accountingex/admin/about.php',1);
 	$head[$h][1] = $langs->trans("About");
 	$head[$h][2] = 'about';
 	$h++;
-	
+
 	complete_head_from_modules($conf,$langs,$object,$head,$h,'accountingex_admin','remove');
 
 	return $head;
@@ -99,19 +99,19 @@ function account_prepare_head($object)
 function account_desactivate($user) {
 
 global $langs;
-		
+
 $result = $this->checkUsage ();
-		
+
 if ($result > 0) {
   $this->db->begin ();
-			
+
   $sql = "UPDATE " . MAIN_DB_PREFIX . "accountingaccount ";
 	$sql .= "SET active = '0'";
 	$sql .= " WHERE rowid = " . $this->id;
-			
+
 	dol_syslog ( get_class ( $this ) . "::desactivate sql=" . $sql, LOG_DEBUG );
 	$result = $this->db->query ( $sql );
-	
+
   if ($result) {
 	   $this->db->commit ();
 		 return 1;
@@ -134,13 +134,13 @@ if ($result > 0) {
 function account_activate($user) {
 
 global $langs;
-		
+
 $this->db->begin ();
-		
+
 $sql = "UPDATE " . MAIN_DB_PREFIX . "accountingaccount ";
 $sql .= "SET active = '1'";
 $sql .= " WHERE rowid = " . $this->id;
-		
+
 dol_syslog ( get_class ( $this ) . "::activate sql=" . $sql, LOG_DEBUG );
 $result = $this->db->query ( $sql );
 if ($result) {
@@ -156,30 +156,30 @@ if ($result) {
 /**
  *	Return general account with defined length
  *
- * 	@param $account   					
+ * 	@param $account
  *
  *	@return $account
  */
 function length_accountg($account)
 {
 	global $conf,$langs;
-  
+
   $g = $conf->global->ACCOUNTINGEX_LENGTH_GACCOUNT;
-  
+
   if (! empty($g))
   {
     // Clean parameters
   	$i = strlen($account);
-    
+
     if ($i >= 2)
     {
         while ($i < $g)
         {
           $account .= '0';
-            
+
           $i++;
         }
-        
+
         return $account;
     }
     else
@@ -188,7 +188,7 @@ function length_accountg($account)
     }
   }
   else
-  { 
+  {
 	  return $account;
   }
 }
@@ -196,32 +196,32 @@ function length_accountg($account)
 /**
  *	Return auxiliary account with defined length
  *
- * 	@param $account   					
+ * 	@param $account
  *
  *	@return $account
  */
 function length_accounta($accounta)
 {
 	global $conf,$langs;
-  
+
   $a = $conf->global->ACCOUNTINGEX_LENGTH_AACCOUNT;
-  
+
   if (! empty($a))
   {
     // Clean parameters
   	$i = strlen($accounta);
-    
+
     if ($i >= 2)
     {
       while ($i < $a)
       {
         $accounta .= '0';
-          
+
         $i++;
       }
-      
+
       return $accounta;
-    
+
     }
     else
     {
@@ -229,7 +229,7 @@ function length_accounta($accounta)
     }
   }
   else
-  { 
+  {
 	  return $accounta;
   }
 }
