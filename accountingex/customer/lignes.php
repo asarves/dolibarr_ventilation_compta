@@ -2,7 +2,7 @@
 /* Copyright (C) 2002-2005 Rodolphe Quiedeville <rodolphe@quiedeville.org>
  * Copyright (C) 2006      Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>  
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  * \ingroup   Accounting Expert
  * \brief     Page de detail des lignes de ventilation d'une facture client
  */
- 
+
 // Dolibarr environment
 $res=@include("../main.inc.php");
 if (! $res && file_exists("../main.inc.php")) $res=@include("../main.inc.php");
@@ -70,13 +70,13 @@ $is_search = GETPOST ( 'button_search_x' );
 
 if (is_array ( $changeaccount ) && count ( $changeaccount ) > 0 && empty ( $is_search )) {
 	$error = 0;
-	
+
 	$db->begin ();
-	
+
 	$sql1 = "UPDATE " . MAIN_DB_PREFIX . "facturedet as l";
 	$sql1 .= " SET l.fk_code_ventilation=" . GETPOST ( 'account_parent' );
 	$sql1 .= ' WHERE l.rowid IN (' . implode ( ',', $changeaccount ) . ')';
-	
+
 	dol_syslog ( 'accountingex/customer/lignes.php::changeaccount sql= ' . $sql1 );
 	$resql1 = $db->query ( $sql1 );
 	if (! $resql1) {
@@ -139,18 +139,18 @@ $result = $db->query ( $sql );
 if ($result) {
 	$num_lignes = $db->num_rows ( $result );
 	$i = 0;
-	
+
 	print_barre_liste ( $langs->trans ( "InvoiceLinesDone" ), $page, "lignes.php", "", $sortfield, $sortorder, '', $num_lignes );
-	
+
 	print '<td align="left"><br><b>'.$langs->trans("DescVentilDoneCustomer").'</b></br></td>';
-	
+
 	print '<form method="POST" action="lignes.php">';
 	print '<table class="noborder" width="100%">';
-	
+
 	// print '<a class="butAction" href="' . $_SERVER ['PHP_SELF'] . '?action=changeaccount">' . $langs->trans ( "ChangeAccount" ) . '</a>';
 	print '<div class="inline-block divButAction"><input type="submit" class="butAction" value="' . $langs->trans ( "ChangeAccount" ) . '"/></div>';
 	print $formventilation->select_account_parent ( GETPOST ( 'account_parent' ), 'account_parent', 1 );
-	
+
 	print '<tr class="liste_titre"><td>' . $langs->trans ( "Invoice" ) . '</td>';
 	print '<td>' . $langs->trans ( "Ref" ) . '</td>';
 	print '<td>' . $langs->trans ( "Label" ) . '</td>';
@@ -160,7 +160,7 @@ if ($result) {
 	print '<td align="center">&nbsp;</td>';
 	print '<td align="center">&nbsp;</td>';
 	print "</tr>\n";
-	
+
 	print '<tr class="liste_titre"><td><input name="search_facture" size="8" value="' . GETPOST ( "search_facture" ) . '"></td>';
 	print '<td class="liste_titre"><input type="text" class="flat" size="15" name="search_ref" value="' . GETPOST ( "search_ref" ) . '"></td>';
 	print '<td class="liste_titre"><input type="text" class="flat" size="15" name="search_label" value="' . GETPOST ( "search_label" ) . '"></td>';
@@ -173,23 +173,23 @@ if ($result) {
 	print '</td>';
 	print '<td align="center">&nbsp;</td>';
 	print "</tr>\n";
-	
+
 	$facture_static = new Facture ( $db );
 	$product_static = new Product ( $db );
-	
+
 	$var = True;
 	while ( $i < min ( $num_lignes, $limit ) ) {
 		$objp = $db->fetch_object ( $result );
 		$var = ! $var;
 		$codeCompta = $objp->account_number . ' ' . $objp->label;
-		
+
 		print "<tr $bc[$var]>";
-		
+
 		// Ref facture
 		$facture_static->ref = $objp->facnumber;
 		$facture_static->id = $objp->facid;
 		print '<td>' . $facture_static->getNomUrl ( 1 ) . '</td>';
-		
+
 		// Ref produit
 		$product_static->ref = $objp->product_ref;
 		$product_static->id = $objp->product_id;
@@ -200,7 +200,7 @@ if ($result) {
 		else
 			print '&nbsp;';
 		print '</td>';
-		
+
 		print '<td>' . dol_trunc ( $objp->product_label, 24 ) . '</td>';
 		print '<td>' . nl2br ( dol_trunc ( $objp->description, 32 ) ) . '</td>';
 		print '<td align="left">' . price ( $objp->total_ht ) . '</td>';
@@ -209,9 +209,9 @@ if ($result) {
 		print '<td><a href="./fiche.php?id=' . $objp->rowid . '">';
 		print img_edit ();
 		print '</a></td>';
-		
+
 		print '<td align="center"><input type="checkbox" name="changeaccount[]" value="' . $objp->rowid . '"/></td>';
-		
+
 		print "</tr>";
 		$i ++;
 	}

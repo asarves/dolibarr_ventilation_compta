@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) 2002-2005 Rodolphe Quiedeville <rodolphe@quiedeville.org>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ if (! $res && file_exists("../main.inc.php")) $res=@include("../main.inc.php");
 if (! $res && file_exists("../../main.inc.php")) $res=@include("../../main.inc.php");
 if (! $res && file_exists("../../../main.inc.php")) $res=@include("../../../main.inc.php");
 if (! $res) die("Include of main fails");
-	
+
 // Class
 dol_include_once("/accountingex/core/lib/account.lib.php");
 dol_include_once("/accountingex/class/accountingaccount.class.php");
@@ -66,13 +66,13 @@ if ($action == 'disable') {
 	if (!empty($accounting->id)) {
 		$result = $accounting->account_desactivate ( $user );
 	}
-	
+
 	$action = 'update';
 	if ($result < 0) {
 		setEventMessage ( $accounting->error, 'errors' );
 	}
 } else if ($action == 'enable') {
-	
+
 	$accounting = $obj->fetch ( $id );
 
 	if (!empty($accounting->id)) {
@@ -97,7 +97,7 @@ $pcgver = $conf->global->CHARTOFACCOUNTS;
 
 $sql2 = "SELECT aa.rowid, aa.fk_pcg_version, aa.pcg_type, aa.pcg_subtype, aa.account_number, aa.account_parent , aa.label, aa.active ";
 $sql2 .= " FROM " . MAIN_DB_PREFIX . "accountingaccount as aa, " . MAIN_DB_PREFIX . "accounting_system as asy";
-$sql2 .= " WHERE aa.fk_pcg_version = asy.pcg_version"; 
+$sql2 .= " WHERE aa.fk_pcg_version = asy.pcg_version";
 $sql2 .= " AND asy.rowid = ".$pcgver;
 
 if (strlen ( trim ( $_GET ["search_account"] ) )) {
@@ -121,17 +121,17 @@ $result = $db->query ( $sql2 );
 if ($result) {
 	$num = $db->num_rows ( $result );
 	$i = 1;
-	
+
 	$var = true;
-	
+
 	$param = '';
-	
+
 	print '<form method="GET" action="' . $_SERVER ["PHP_SELF"] . '">';
-	
+
 	print '<a class="butAction" href="fiche.php?action=create">' . $langs->trans ( "Addanaccount" ) . '</a>';
 	print '<a class="butAction" href="importaccounts.php">' . $langs->trans ( "ImportAccount" ) . '</a>';
 	print '<br/><br/>';
-	
+
 	print '<table class="noborder" width="100%">';
 	print '<tr class="liste_titre">';
 	print_liste_field_titre ( $langs->trans ( "AccountNumber" ), "account.php", "aa.account_number", "", $param, "", $sortfield, $sortorder );
@@ -142,7 +142,7 @@ if ($result) {
 	print_liste_field_titre ( $langs->trans ( "Active" ), "account.php", "aa.active", "", $param, "", $sortfield, $sortorder );
 	print_liste_field_titre ( "&nbsp;" );
 	print '</tr>';
-	
+
 	print '<tr class="liste_titre">';
 	print '<td class="liste_titre"><input type="text" class="flat" size="15" name="search_account" value="' . GETPOST ( "search_account" ) . '"></td>';
 	print '<td class="liste_titre"><input type="text" class="flat" size="15" name="search_label" value="' . GETPOST ( "search_label" ) . '"></td>';
@@ -154,15 +154,15 @@ if ($result) {
 	print '<input type="image" class="liste_titre" src="' . DOL_URL_ROOT . '/theme/' . $conf->theme . '/img/search.png" name="button_search" value="' . dol_escape_htmltag ( $langs->trans ( "Search" ) ) . '" title="' . dol_escape_htmltag ( $langs->trans ( "Search" ) ) . '">';
 	print '</td>';
 	print '</tr>';
-	
+
 	$var = True;
-	
+
 	while ( $i < min ( $num, 1000 ) ) {
 		$obj2 = $db->fetch_object ( $resql2 );
 		$var = ! $var;
-		
+
 		print "<tr $bc[$var]>";
-		
+
 		print '<td><a href="./fiche.php?id=' . $obj2->rowid . '">' . $obj2->account_number . '</td>';
 		print '<td>' . $obj2->label . '</td>';
 		print '<td>' . $obj2->account_parent . '</td>';
@@ -179,7 +179,7 @@ if ($result) {
 				print '</a>';
 		}
 		print '</td>';
-		
+
 		print '<td>';
 		if ($user->rights->accountingex->admin) {
 			print '<a href="./fiche.php?action=update&id=' . $obj2->rowid . '">';
@@ -190,11 +190,11 @@ if ($result) {
 			print '</a>';
 		}
 		print '</td>' . "\n";
-		
+
 		print "</tr>";
 		$i ++;
 	}
-	
+
 	print "</table>";
 	print '</form>';
 } else {

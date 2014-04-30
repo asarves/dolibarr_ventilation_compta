@@ -24,17 +24,17 @@
 class FormVentilation extends Form {
 	var $db;
 	var $error;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param DoliDB $db handler
 	 */
 	function __construct($db) {
 		$this->db = $db;
 		return 1;
 	}
-	
+
 	/**
 	 *	Return select filer with date of transaction
 	 *
@@ -46,68 +46,68 @@ class FormVentilation extends Form {
 	 *	@return	string					HTML select input
 	 */
 	function select_bookkeeping_importkey ($htmlname='importkey',$selectedkey) {
-	
+
 		global $langs;
-	
+
 		$date_array=array();
-	
+
 		$sql='SELECT DISTINCT import_key from '.MAIN_DB_PREFIX.'bookkeeping ';
 		$sql.=' ORDER BY import_key DESC';
-	
-		
+
+
 		$out='<SELECT name="'.$htmlname.'">';
-		
+
 		dol_syslog(get_class($this)."::select_bookkeeping_importkey sql=".$sql, LOG_DEBUG);
 		$resql=$this->db->query($sql);
 		if ($resql)
 		{
 			$i=0;
 			$num = $this->db->num_rows($resql);
-				
+
 			while ($i<$num)
 			{
 				$obj = $this->db->fetch_object($resql);
-				
+
 				$selected='';
 				if ($selectedkey==$obj->import_key) {
 					$selected=' selected="selected" ';
 				}
-	
+
 				$out.='<OPTION value="'.$obj->import_key.'"'.$selected.'>'.$obj->import_key.'</OPTION>';
-	
+
 				$i++;
 			}
-	
+
 		}else {
 			$this->error="Error ".$this->db->lasterror();
 			dol_syslog(get_class($this)."::select_bookkeeping_importkey ".$this->error, LOG_ERR);
 			return -1;
 		}
-		
+
 		$out.='</SELECT>';
-	
+
 		return $out;
 	}
-	
+
 	function select_account_parent($selectid, $htmlname = 'account_parent', $showempty = 0, $event = array()) {
 		global $conf, $user, $langs;
-	
+
 		$out = '';
-	
+
 		$sql = "SELECT DISTINCT aa.account_number, aa.label, aa.rowid, aa.fk_pcg_version";
 		$sql .= " FROM " . MAIN_DB_PREFIX . "accountingaccount as aa";
 		$sql .= " INNER JOIN " . MAIN_DB_PREFIX . "accounting_system as asy ON aa.fk_pcg_version = asy.pcg_version";
 		$sql .= " AND asy.rowid = ".$conf->global->CHARTOFACCOUNTS;
     $sql .= " AND aa.active = 1";
 		$sql .= " ORDER BY aa.account_number";
-	
+
 		dol_syslog ( get_class ( $this ) . "::select_account_parent sql=" . $sql, LOG_DEBUG );
 		$resql = $this->db->query ( $sql );
 		if ($resql) {
-	
+
 			$out .= ajax_combobox ( $htmlname, $event );
-	
-	
+
+
 			$out .= '<select id="' . $htmlname . '" class="flat" name="' . $htmlname . '">';
 			if ($showempty)
 				$out .= '<option value="-1"></option>';
@@ -117,7 +117,7 @@ class FormVentilation extends Form {
 				while ( $i < $num ) {
 					$obj = $this->db->fetch_object ( $resql );
 					$label = $obj->account_number.'-'.$obj->label;
-	
+
 					if (($selectid != '') && $selectid == $obj->account_number) {
 						$out .= '<option value="' . $obj->account_number . '" selected="selected">' . $label . '</option>';
 					} else {
@@ -134,23 +134,23 @@ class FormVentilation extends Form {
 		return $out;
 	}
 
-	
+
 		function select_pcgtype($selectid, $htmlname = 'pcg_type', $showempty = 0, $event = array()) {
 		global $conf, $user, $langs;
-	
+
 		$out = '';
-	
+
 		$sql = "SELECT DISTINCT pcg_type ";
 		$sql .= " FROM " . MAIN_DB_PREFIX . "accountingaccount ";
 		$sql .= " ORDER BY pcg_type";
-	
+
 		dol_syslog ( get_class ( $this ) . "::select_pcg_type sql=" . $sql, LOG_DEBUG );
 		$resql = $this->db->query ( $sql );
 		if ($resql) {
-	
+
 			$out .= ajax_combobox ( $htmlname, $event );
-	
-	
+
+
 			$out .= '<select id="' . $htmlname . '" class="flat" name="' . $htmlname . '">';
 			if ($showempty)
 				$out .= '<option value="-1"></option>';
@@ -160,7 +160,7 @@ class FormVentilation extends Form {
 				while ( $i < $num ) {
 					$obj = $this->db->fetch_object ( $resql );
 					$label = $obj->pcg_type;
-	
+
 					if (($selectid != '') && $selectid == $obj->pcg_type) {
 						$out .= '<option value="' . $obj->pcg_type . '" selected="selected">' . $label . '</option>';
 					} else {
@@ -176,23 +176,23 @@ class FormVentilation extends Form {
 		$this->db->free ( $resql );
 		return $out;
 	}
-	
+
 	function select_pcgsubtype($selectid, $htmlname = 'pcg_subtype', $showempty = 0, $event = array()) {
 		global $conf, $user, $langs;
-	
+
 		$out = '';
-	
+
 		$sql = "SELECT DISTINCT pcg_subtype ";
 		$sql .= " FROM " . MAIN_DB_PREFIX . "accountingaccount ";
 		$sql .= " ORDER BY pcg_subtype";
-	
+
 		dol_syslog ( get_class ( $this ) . "::select_pcg_subtype sql=" . $sql, LOG_DEBUG );
 		$resql = $this->db->query ( $sql );
 		if ($resql) {
-	
+
 			$out .= ajax_combobox ( $htmlname, $event );
-	
-	
+
+
 			$out .= '<select id="' . $htmlname . '" class="flat" name="' . $htmlname . '">';
 			if ($showempty)
 				$out .= '<option value="-1"></option>';
@@ -202,7 +202,7 @@ class FormVentilation extends Form {
 				while ( $i < $num ) {
 					$obj = $this->db->fetch_object ( $resql );
 					$label = $obj->pcg_subtype;
-	
+
 					if (($selectid != '') && $selectid == $obj->pcg_subtype) {
 						$out .= '<option value="' . $obj->pcg_subtype . '" selected="selected">' . $label . '</option>';
 					} else {
@@ -218,5 +218,5 @@ class FormVentilation extends Form {
 		$this->db->free ( $resql );
 		return $out;
 	}
-	
+
 }

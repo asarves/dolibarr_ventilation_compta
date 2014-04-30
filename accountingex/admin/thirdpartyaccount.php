@@ -2,7 +2,7 @@
 /* Copyright (C) 2004-2005 Rodolphe Quiedeville <rodolphe@quiedeville.org>
  * Copyright (C) 2005      Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ if (empty($date_start) || empty($date_end)) // We define date_start and date_end
 }
 else
 {
-    
+
 
 }
 
@@ -101,15 +101,15 @@ $form=new Form($db);
 $nomlink='';
 $periodlink='';
 $exportlink='';
- 
+
 $nom=$langs->trans("ReportThirdParty");
 $period=$form->select_date($date_start,'date_start',0,0,0,'',1,0,1).' - '.$form->select_date($date_end,'date_end',0,0,0,'',1,0,1);
 $description=$langs->trans("DescThirdPartyReport");
 $builddate=time();
-    
-     
+
+
  report_header($nom,$nomlink,$period,$periodlink,$description,$builddate,$exportlink , array('action'=>''));
- 
+
 print '<input type="button" class="button" style="float: right;" value="Export CSV" onclick="launch_export();" />';
 
 print '
@@ -160,17 +160,17 @@ if ($resql)
 
 // export csv
 if (GETPOST('action') == 'export_csv') {
-	
+
 	header( 'Content-Type: text/csv' );
 	header( 'Content-Disposition: attachment;filename=export_csv.csv');
-	
-	 
+
+
       $obj = $db->fetch_object($resql);
       $var=!$var;
 
-	
-	
-	
+
+
+
  print '"'.$obj->compta.'",';
  print '"'.$obj->address.'",';
  print '"'.$obj->zip.'",';
@@ -180,7 +180,7 @@ if (GETPOST('action') == 'export_csv') {
  print '"'.$obj->fax.'",';
  print "\n";
  $i++;
-   
+
 }
 
 /*
@@ -232,7 +232,7 @@ print '<td align="left">'.$langs->trans("Fax").'</td></tr>';
  print '<td align="left"></td>';
  print '<td align="left">'.$obj->phone.'</td>';
  print '<td align="left">'.$obj->fax.'</td>';
-   
+
 
 
       print "</tr>\n";

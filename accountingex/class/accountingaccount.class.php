@@ -50,7 +50,7 @@ class AccountingAccount {
 	function __construct($db, $rowid = '') {
 
 		$this->db = $db;
-		
+
 		if ($rowid != '')
 			return $this->fetch ( $rowid );
 	}
@@ -67,7 +67,7 @@ class AccountingAccount {
 			} elseif ($account_number) {
 				$sql .= " account_number = '" . $account_number . "'";
 			}
-			
+
 			dol_syslog ( get_class ( $this ) . "::fetch sql=" . $sql, LOG_DEBUG );
 			$result = $this->db->query ( $sql );
 			if ($result) {
@@ -76,7 +76,7 @@ class AccountingAccount {
 				return null;
 			}
 		}
-		
+
 		$this->id = $obj->rowid;
 		$this->rowid = $obj->rowid;
 		$this->datec = $obj->datec;
@@ -90,7 +90,7 @@ class AccountingAccount {
 		$this->fk_user_author = $obj->fk_user_author;
 		$this->fk_user_modif = $obj->fk_user_modif;
 		$this->active = $obj->active;
-		
+
 		return $obj->rowid;
 	}
 
@@ -102,7 +102,7 @@ class AccountingAccount {
 
 		global $conf, $langs;
 		$error = 0;
-		
+
 		// Clean parameters
 		if (isset ( $this->fk_pcg_version ))
 			$this->fk_pcg_version = trim ( $this->fk_pcg_version );
@@ -120,13 +120,13 @@ class AccountingAccount {
 			$this->fk_user_author = trim ( $this->fk_user_author );
 		if (isset ( $this->active ))
 			$this->active = trim ( $this->active );
-			
+
 			// Check parameters
 			// Put here code to add control on parameters values
-			
+
 		// Insert request
 		$sql = "INSERT INTO " . MAIN_DB_PREFIX . "accountingaccount(";
-		
+
 		$sql .= "datec";
 		$sql .= ", entity";
 		$sql .= ", fk_pcg_version";
@@ -137,9 +137,9 @@ class AccountingAccount {
 		$sql .= ", label";
 		$sql .= ", fk_user_author";
 		$sql .= ", active";
-		
+
 		$sql .= ") VALUES (";
-		
+
 		$sql .= " '" . $this->db->idate ( $now ) . "'";
 		$sql .= ", " . $conf->entity;
 		$sql .= ", " . (! isset ( $this->fk_pcg_version ) ? 'NULL' : "'" . $this->db->escape ( $this->fk_pcg_version ) . "'");
@@ -150,25 +150,25 @@ class AccountingAccount {
 		$sql .= ", " . (! isset ( $this->label ) ? 'NULL' : "'" . $this->db->escape ( $this->label ) . "'");
 		$sql .= ", " . $user->id;
 		$sql .= ", " . (! isset ( $this->active ) ? 'NULL' : "'" . $this->db->escape ( $this->active ) . "'");
-		
+
 		$sql .= ")";
-		
+
 		$this->db->begin ();
-		
+
 		dol_syslog ( get_class ( $this ) . "::create sql=" . $sql, LOG_DEBUG );
 		$resql = $this->db->query ( $sql );
 		if (! $resql) {
 			$error ++;
 			$this->errors [] = "Error " . $this->db->lasterror ();
 		}
-		
+
 		if (! $error) {
 			$this->id = $this->db->last_insert_id ( MAIN_DB_PREFIX . "accountingaccount" );
-			
+
 			if (! $notrigger) {
 				// Uncomment this and change MYOBJECT to your own tag if you
 				// want this action calls a trigger.
-				
+
 				// // Call triggers
 				// include_once DOL_DOCUMENT_ROOT . '/core/class/interfaces.class.php';
 				// $interface=new Interfaces($this->db);
@@ -177,7 +177,7 @@ class AccountingAccount {
 				// // End call triggers
 			}
 		}
-		
+
 		// Commit or rollback
 		if ($error) {
 			foreach ( $this->errors as $errmsg ) {
@@ -201,9 +201,9 @@ class AccountingAccount {
 	function update($user) {
 
 		global $langs;
-		
+
 		$this->db->begin ();
-		
+
 		$sql = "UPDATE " . MAIN_DB_PREFIX . "accountingaccount ";
 		$sql .= " SET fk_pcg_version = " . ($this->fk_pcg_version ? "'" . $this->db->escape ( $this->fk_pcg_version ) . "'" : "null");
 		$sql .= " , pcg_type = " . ($this->pcg_type ? "'" . $this->db->escape ( $this->pcg_type ) . "'" : "null");
@@ -213,9 +213,9 @@ class AccountingAccount {
 		$sql .= " , label = " . ($this->label ? "'" . $this->db->escape ( $this->label ) . "'" : "null");
 		$sql .= " , fk_user_modif = " . $user->id;
 		$sql .= " , active = '" . $this->active . "'";
-		
+
 		$sql .= " WHERE rowid = " . $this->id;
-		
+
 		dol_syslog ( get_class ( $this ) . "::update sql=" . $sql, LOG_DEBUG );
 		$result = $this->db->query ( $sql );
 		if ($result) {
@@ -237,16 +237,16 @@ class AccountingAccount {
 	function checkUsage() {
 
 		global $langs;
-		
+
 		$sql = "(SELECT fk_code_ventilation FROM " . MAIN_DB_PREFIX . "facturedet";
 		$sql .= " WHERE  fk_code_ventilation=" . $this->id . ")";
 		$sql .= "UNION";
 		$sql .= "(SELECT fk_code_ventilation FROM " . MAIN_DB_PREFIX . "facture_fourn_det";
 		$sql .= " WHERE  fk_code_ventilation=" . $this->id . ")";
-		
+
 		dol_syslog ( get_class ( $this ) . "::checkUsage sql=" . $sql, LOG_DEBUG );
 		$resql = $this->db->query ( $sql );
-		
+
 		if ($resql) {
 			$num = $this->db->num_rows ( $resql );
 			if ($num > 0) {
@@ -272,18 +272,18 @@ class AccountingAccount {
 
 		global $conf, $langs;
 		$error = 0;
-		
+
 		$result = $this->checkUsage ();
-		
+
 		if ($result > 0) {
-			
+
 			$this->db->begin ();
-			
+
 			if (! $error) {
 				if (! $notrigger) {
 					// Uncomment this and change MYOBJECT to your own tag if you
 					// want this action calls a trigger.
-					
+
 					// // Call triggers
 					// include_once DOL_DOCUMENT_ROOT . '/core/class/interfaces.class.php';
 					// $interface=new Interfaces($this->db);
@@ -292,11 +292,11 @@ class AccountingAccount {
 					// // End call triggers
 				}
 			}
-			
+
 			if (! $error) {
 				$sql = "DELETE FROM " . MAIN_DB_PREFIX . "accountingaccount";
 				$sql .= " WHERE rowid=" . $this->id;
-				
+
 				dol_syslog ( get_class ( $this ) . "::delete sql=" . $sql );
 				$resql = $this->db->query ( $sql );
 				if (! $resql) {
@@ -304,7 +304,7 @@ class AccountingAccount {
 					$this->errors [] = "Error " . $this->db->lasterror ();
 				}
 			}
-			
+
 			// Commit or rollback
 			if ($error) {
 				foreach ( $this->errors as $errmsg ) {
@@ -333,10 +333,10 @@ class AccountingAccount {
 		$sql = 'SELECT a.rowid, a.datec, a.fk_user_author, a.fk_user_modif, a.tms';
 		$sql .= ' FROM ' . MAIN_DB_PREFIX . 'accountingaccount as a';
 		$sql .= ' WHERE a.rowid = ' . $id;
-		
+
 		dol_syslog ( get_class ( $this ) . '::info sql=' . $sql );
 		$result = $this->db->query ( $sql );
-		
+
 		if ($result) {
 			if ($this->db->num_rows ( $result )) {
 				$obj = $this->db->fetch_object ( $result );

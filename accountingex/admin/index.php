@@ -51,10 +51,10 @@ $action=GETPOST('action','alpha');
  * Affichage page
  *
  */
- 
+
 $compta_mode = defined('COMPTA_MODE')?COMPTA_MODE:'RECETTES-DEPENSES';
- 
- 
+
+
 if ($action == 'setcomptamode')
 {
 	$compta_mode = GETPOST('compta_mode','alpha');
@@ -73,7 +73,7 @@ if ($action == 'setcomptamode')
     }
 
 }
- 
+
 if ($action == 'setchart')
 {
 	$chartofaccounts = GETPOST('chartofaccounts','alpha');
@@ -99,7 +99,7 @@ if ($action == 'delete')
 		print $db->error();
 	}
 }
- 
+
 if ($action == 'update' || $action == 'add')
 {
 	$constname = GETPOST('constname','alpha');
@@ -131,7 +131,7 @@ $form=new Form($db);
 print_fiche_titre($langs->trans('ConfigAccountingExpert'));
 
 $head = admin_account_prepare_head ( $accounting );
-		
+
 dol_fiche_head ( $head, 'card', $langs->trans ( "Configuration" ), 0, 'cron' );
 
 print '<table class="noborder" width="100%">';
@@ -169,7 +169,7 @@ print "</table>\n";
  *
  */
 print '<br>';
-  
+
 print '<form action="'.$_SERVER["PHP_SELF"].'" method="POST">';
 print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'" />';
 
@@ -226,7 +226,7 @@ $list=array('LIMIT_LIST_VENTILATION',
             'LIST_SORT',
             'ACCOUNTINGEX_LENGTH_GACCOUNT',
             'ACCOUNTINGEX_LENGTH_AACCOUNT',
-            'COMPTA_ACCOUNT_CUSTOMER',            
+            'COMPTA_ACCOUNT_CUSTOMER',
             'COMPTA_ACCOUNT_SUPPLIER',
             'COMPTA_PRODUCT_BUY_ACCOUNT',
             'COMPTA_PRODUCT_SOLD_ACCOUNT',
@@ -257,15 +257,15 @@ foreach ($list as $key)
 
 	print '<form action="index.php" method="POST">';
 	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
-	
+
 	print '<input type="hidden" name="action" value="update">';
 	print '<input type="hidden" name="consttype" value="string">';
 	print '<input type="hidden" name="constname" value="'.$key.'">';
-	
+
 	print '<tr '.$bc[$var].' class="value">';
 
 	// Param
-	$libelle = $langs->trans($key); 
+	$libelle = $langs->trans($key);
 	print '<td>'.$libelle;
 	//print ' ('.$key.')';
 	print "</td>\n";
@@ -277,7 +277,7 @@ foreach ($list as $key)
 	print '<input type="submit" class="button" value="'.$langs->trans('Modify').'" name="button"> &nbsp; ';
 	print "</td></tr>\n";
 	print '</form>';
-	
+
 	$i++;
 }
 

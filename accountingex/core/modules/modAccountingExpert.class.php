@@ -19,7 +19,7 @@
 
 /**
  *    \file       accountingex/core/modules/modAccountingExpert.class.php
- *    \ingroup    Accounting Expert 
+ *    \ingroup    Accounting Expert
  *    \brief      Module to activate Accounting Expert module
  */
 
@@ -40,7 +40,7 @@ class modAccountingExpert extends DolibarrModules
 	{
 		$this->db = $DB;
 		$this->numero = 150000;
-    
+
 		$this->family = "financial";
 		// Module label (no space allowed), used if translation string 'ModuleXXXName' not found (where XXX is value of numeric property 'numero' of module)
 		$this->name = preg_replace('/^mod/i','',get_class($this));
@@ -53,7 +53,7 @@ class modAccountingExpert extends DolibarrModules
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->special = 0;
 		$this->picto = 'accountingex@accountingex';
-		
+
 		// Defined if the directory /mymodule/inc/triggers/ contains triggers or not
 		//$this->triggers = 1;
 
@@ -62,7 +62,7 @@ class modAccountingExpert extends DolibarrModules
 
 		// Config pages
 		// $this->config_page_url = array('index.php@accountingex'); Deprecated - Need an admin page into the module directly - Not reserve for the admin
-		
+
 		// Dependencies
 		$this->depends = array();		// List of modules id that must be enabled if this module is enabled
 		$this->requiredby = array();	// List of modules id to disable if this one is disabled
@@ -78,8 +78,8 @@ class modAccountingExpert extends DolibarrModules
 		$this->const[3] = array("ACCOUNTINGEX_SELL_JOURNAL","chaine","VTE");
 		$this->const[4] = array("ACCOUNTINGEX_PURCHASE_JOURNAL","chaine","ACH");
 		$this->const[5] = array("ACCOUNTINGEX_BANK_JOURNAL","chaine","BQ");
-		$this->const[6] = array("ACCOUNTINGEX_SOCIAL_JOURNAL","chaine","SOC");    
-		$this->const[7] = array("ACCOUNTINGEX_CASH_JOURNAL","chaine","CAI");    
+		$this->const[6] = array("ACCOUNTINGEX_SOCIAL_JOURNAL","chaine","SOC");
+		$this->const[7] = array("ACCOUNTINGEX_CASH_JOURNAL","chaine","CAI");
 		$this->const[8] = array("ACCOUNTINGEX_MISCELLANEOUS_JOURNAL","chaine","OD");
     $this->const[9] = array("ACCOUNTINGEX_ACCOUNT_TRANSFER_CASH","chaine","58");
     $this->const[10] = array("CHARTOFACCOUNTS","chaine","2");
@@ -88,11 +88,11 @@ class modAccountingExpert extends DolibarrModules
 		$this->const[13] = array("ACCOUNTINGEX_LENGTH_AACCOUNT","chaine","");
     $this->const[14] = array("LIMIT_LIST_VENTILATION","chaine","50");
 		$this->const[15] = array("LIST_SORT_VENTILATION","chaine","DESC");
-		
-    
+
+
     // Css
     $this->module_parts = array('css' => array('/accountingex/css/accountingex.css.php'));
-    		
+
 		// Boxes
 		$this->boxes = array();
 
@@ -108,21 +108,21 @@ class modAccountingExpert extends DolibarrModules
 		$this->rights[$r][4] = 'access';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$r++;
-    
+
 		$this->rights[$r][0] = 150002; 				// Permission id (must not be already used)
 		$this->rights[$r][1] = 'Administration_module';	// Permission label
 		$this->rights[$r][3] = 0; 					// Permission by default for new user (0/1)
 		$this->rights[$r][4] = 'admin';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$r++;
-    
+
     $this->rights[$r][0] = 150010; 				// Permission id (must not be already used)
 		$this->rights[$r][1] = 'Développement';	// Permission label
 		$this->rights[$r][3] = 0; 					// Permission by default for new user (0/1)
 		$this->rights[$r][4] = 'dev';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$r++;
-		
+
 		// Main menu entries
 		$this->menus = array();
 		$r=0;
@@ -140,8 +140,8 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		$r++;
-		
-	
+
+
     $this->menu[$r]=array(	'fk_menu'=>'r=0',
 								'type'=>'left',
 								'titre'=>'CustomersVentilation',
@@ -154,7 +154,7 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		$r++;
-		
+
 		$this->menu[$r]=array(	'fk_menu'=>'r=1',
 								'type'=>'left',
 								'titre'=>'ToDispatch',
@@ -167,7 +167,7 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		$r++;
-		
+
 		$this->menu[$r]=array(	'fk_menu'=>'r=1',
 								'type'=>'left',
 								'titre'=>'Dispatched',
@@ -193,7 +193,7 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		$r++;
-		
+
 		$this->menu[$r]=array(	'fk_menu'=>'r=4',
 								'type'=>'left',
 								'titre'=>'ToDispatch',
@@ -206,7 +206,7 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		$r++;
-		
+
 		$this->menu[$r]=array(  'fk_menu'=>'r=4',
 								'type'=>'left',
 								'titre'=>'Dispatched',
@@ -219,7 +219,7 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		$r++;
-		
+
 		$this->menu[$r]=array(	'fk_menu'=>'r=0',
 								'type'=>'left',
 								'titre'=>'Journaux',
@@ -232,7 +232,7 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		$r++;
-		
+
 		$this->menu[$r]=array(  'fk_menu'=>'r=7',
 		            'type'=>'left',
 		            'titre'=>'Journal des ventes',
@@ -245,7 +245,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
     $r++;
-		
+
     $this->menu[$r]=array(  'fk_menu'=>'r=7',
 		            'type'=>'left',
 		            'titre'=>'Journal des achats',
@@ -258,7 +258,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
     $r++;
-    
+
     $this->menu[$r]=array(  'fk_menu'=>'r=7',
 		            'type'=>'left',
 		            'titre'=>'BankJournal',
@@ -271,7 +271,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
     $r++;
-    
+
     $this->menu[$r]=array(  'fk_menu'=>'r=7',
 		            'type'=>'left',
 		            'titre'=>'CashJournal',
@@ -284,7 +284,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
     $r++;
-				
+
 		$this->menu[$r]=array(	'fk_menu'=>'r=0',
 								'type'=>'left',
 								'titre'=>'Bookkeeping',
@@ -297,7 +297,7 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		$r++;
-      
+
 		$this->menu[$r]=array(  'fk_menu'=>'r=12',
 								'type'=>'left',
 								'titre'=>'ByYear',
@@ -310,7 +310,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
 		$r++;
-      
+
     $this->menu[$r]=array(  'fk_menu'=>'r=12',
 		            'type'=>'left',
 		            'titre'=>'Balance mensuelle',
@@ -323,7 +323,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
      $r++;
-           	
+
      // Parameters Menu
      $this->menu[$r]=array(	'fk_menu'=>'r=0',
 								'type'=>'left',
@@ -337,7 +337,7 @@ class modAccountingExpert extends DolibarrModules
 								'target'=>'',
 								'user'=>0);
 		 $r++;
-      
+
 		 $this->menu[$r]=array(  'fk_menu'=>'r=15',
 								'type'=>'left',
 								'titre'=>'Globalparameters',
@@ -350,7 +350,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
 		 $r++;
-      
+
      $this->menu[$r]=array(  'fk_menu'=>'r=15',
 		            'type'=>'left',
 		            'titre'=>'Chartofaccounts',
@@ -363,7 +363,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
      $r++;
-     
+
      $this->menu[$r]=array(  'fk_menu'=>'r=17',
 		            'type'=>'left',
 		            'titre'=>'Menuaccount',
@@ -376,7 +376,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
      $r++;
-     
+
      $this->menu[$r]=array(  'fk_menu'=>'r=17',
 		            'type'=>'left',
 		            'titre'=>'Menuthirdpartyaccount',
@@ -389,7 +389,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
      $r++;
-     
+
      $this->menu[$r]=array(  'fk_menu'=>'r=15',
 		            'type'=>'left',
 		            'titre'=>'MenuTools',
@@ -402,7 +402,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
      $r++;
-     
+
      /*
      $this->menu[$r]=array(  'fk_menu'=>'r=14',
 		            'type'=>'left',
@@ -416,7 +416,7 @@ class modAccountingExpert extends DolibarrModules
 		            'target'=>'',
 		            'user'=>0);
      $r++;
-     
+
      $this->menu[$r]=array(  'fk_menu'=>'r=14',
 		            'type'=>'left',
 		            'titre'=>'Journaux',
@@ -442,11 +442,11 @@ class modAccountingExpert extends DolibarrModules
 	function init()
 	{
 		$sql = array();
-		
+
 		if ($this->load_tables() < 0)
 		    return -1;
-		
-		
+
+
 
 		return $this->_init($sql);
 	}
@@ -463,7 +463,7 @@ class modAccountingExpert extends DolibarrModules
 
 		return $this->_remove($sql);
 	}
-	
+
 	/**
 	 *		\brief		Create tables and keys required by module
 	 *					This function is called by this->init.

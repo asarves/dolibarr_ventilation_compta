@@ -3,7 +3,7 @@
  * Copyright (C) 2004      Eric Seigne          <eric.seigne@ryxeo.com>
  * Copyright (C) 2004-2006 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,37 +60,37 @@ if($_POST["action"] == 'import')
 		$sql = 'SELECT pcg_version FROM ' . MAIN_DB_PREFIX . 'accounting_system WHERE rowid=' . $conf->global->CHARTOFACCOUNTS;
 		$result = $db->query ( $sql );
 		if ($result && ($db->num_rows ( $result )>0)) {
-			
+
 			$obj = $db->fetch_object ( $result );
 
 			$cpt = 0;
 			foreach ( $to_import as $maLigneCochee ) {
-		
+
 		$accounting = new AccountingAccount ($db);
-		
-			
+
+
 			$monLabel = GETPOST ( 'intitule' . $maLigneCochee );
 				$monParentAccount = GETPOST ( 'AccountParent' . $maLigneCochee );
 				$monType = GETPOST ( 'pcgType' . $maLigneCochee );
 				$monSubType = GETPOST ( 'pcgSubType' . $maLigneCochee );
-  
+
 			$accounting->fk_pcg_version = $obj->pcg_version;
-			$accounting->account_number = $maLigneCochee;			
+			$accounting->account_number = $maLigneCochee;
 			$accounting->label = $monLabel;
 			$accounting->account_parent = $monParentAccount;
 			$accounting->pcg_type =$monType ;
 			$accounting->pcg_subtype =$monSubType ;
 			$accounting->active = 1;
-			
-			
+
+
 			$result = $accounting->create ( $user );
 			if ($result > 0) {
 				setEventMessage ( $langs->trans ( "AccountingAccountAdd" ), 'mesgs' );
 			} else {
 				setEventMessage ( $accounting->error, 'errors' );
 			}
-			$cpt++; 
-  
+			$cpt++;
+
 		}
 		}else {
 			setEventMessage($langs->trans('AccountPlanNotFoundCheckSetting'),'errors');
@@ -106,7 +106,7 @@ if($_POST["action"] == 'import')
 
 
 /*
-* list accounting account from product 
+* list accounting account from product
 *
 */
 $page = $_GET["page"];
@@ -157,57 +157,57 @@ if ($result)
 		$var=!$var;
 		print "<tr $bc[$var]>";
 
-		
-		
-		
+
+
+
 		print '<td align="left">';
 		print $objp->accounting;
-		print '</td>';	
-		
+		print '</td>';
+
 		print '<td align="left">';
 		print '<input name="intitule" size="70" value="">';
-		print '</td>';	
+		print '</td>';
 
 		//Colonne choix du compte
   print '<td>';
 	print $htmlacc->select_account_parent($accounting->account_parent, 'AccountParent');
 	print '</td>';
-		
+
 		print '<td>';
 	print $htmlacc->select_pcgtype($accounting->pcg_type, 'pcgType');
 	print '</td>';
-		
+
 		print '<td>';
 	print $htmlacc->select_pcgsubtype($accounting->pcg_subtype, 'pcgSubType');
 	print '</td>';
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		//Colonne choix ligne a ventiler
-		
+
 		$checked = ('intitule' == 'O')?' checked=checked':'';
-		
+
 		print '<td align="center">';
 		print '<input type="checkbox" name="mesCasesCochees[]" ' . $checked . ' value="' . $objp->accounting . '"/>';
 		print '</td>';
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
 
 		print '</tr>';
 		$i++;
 	}
 
 	print '<tr><td colspan="8">&nbsp;</td></tr><tr><td colspan="8" align="center"><input type="submit" class="butAction" value="' . $langs->trans ( "Import" ) . '"></td></tr>';
-	
+
 	print '</table>';
 	print '</form>';
 } else {

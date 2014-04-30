@@ -2,7 +2,7 @@
 /* Copyright (C) 2004-2005 Rodolphe Quiedeville <rodolphe@quiedeville.org>
  * Copyright (C) 2005      Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ $form=new Form($db);
 
 
 
- 
+
 print '<input type="button" class="button" style="float: right;" value="Renseigner les comptes comptables produits manquant" onclick="launch_export();" />';
 
 print '
@@ -68,7 +68,7 @@ $sql = "SELECT p.rowid, p.ref , p.label, p.description , p.accountancy_code_sell
 $sql.= " FROM ".MAIN_DB_PREFIX."product as p";
 $sql.=  " WHERE p.accountancy_code_sell IS NULL  AND p.tosell = 1  OR p.accountancy_code_buy IS NULL AND p.tobuy = 1" ;
 
-    
+
 $resql = $db->query($sql);
 if ($resql)
 {
@@ -103,21 +103,21 @@ print '<td align="left">'.$langs->trans("Accountancy_code_sell_suggest").'</td>'
     {
       $obj = $db->fetch_object($resql);
       $var=!$var;
-      
+
       	$compta_prodsell = $obj->accountancy_code_sell;
 		if (empty($compta_prodsell))
 		{
 			if($obj->product_type == 0) $compta_prodsell = (! empty($conf->global->COMPTA_PRODUCT_SOLD_ACCOUNT)?$conf->global->COMPTA_PRODUCT_SOLD_ACCOUNT:$langs->trans("CodeNotDef"));
 			else $compta_prodsell = (! empty($conf->global->COMPTA_SERVICE_SOLD_ACCOUNT)?$conf->global->COMPTA_SERVICE_SOLD_ACCOUNT:$langs->trans("CodeNotDef"));
 		}
-		
+
 		$compta_prodbuy = $obj->accountancy_code_buy;
 		if (empty($compta_prodbuy))
 		{
 			if($obj->product_type == 0) $compta_prodbuy = (! empty($conf->global->COMPTA_PRODUCT_BUY_ACCOUNT)?$conf->global->COMPTA_PRODUCT_BUY_ACCOUNT:$langs->trans("CodeNotDef"));
 			else $compta_prodbuy = (! empty($conf->global->COMPTA_SERVICE_BUY_ACCOUNT)?$conf->global->COMPTA_SERVICE_BUY_ACCOUNT:$langs->trans("CodeNotDef"));
 		}
-		
+
 		$product_static = new Product ( $db );
 
  print "<tr $bc[$var]>";
@@ -134,14 +134,14 @@ print '<td align="left">'.$langs->trans("Accountancy_code_sell_suggest").'</td>'
 		 print '<td align="left">'.$obj->ref.'</td>';
  print '<td align="left">'.$obj->label.'</td>';
  print '<td align="left">'.$obj->description.'</td>';
- 
+
  print '<td align="left">'.$obj->accountancy_code_buy.'</td>';
  print '<td align="left">'.$compta_prodbuy.'</td>';
- 
+
  print '<td align="left">'.$obj->accountancy_code_sell.'</td>';
  print '<td align="left">'.$compta_prodsell.'</td>';
 
-   
+
 
 
       print "</tr>\n";

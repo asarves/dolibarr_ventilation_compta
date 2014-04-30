@@ -3,7 +3,7 @@
  * Copyright (C) 2004-2005 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013      Olivier Geffroy      <jeff@jeffinfo.com>
  * Copyright (C) 2013-2014 Florian Henry	      <florian.henry@open-concept.pro>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ else
 // Validate History
 $action=GETPOST('action');
 if ($action == 'validatehistory') {
-	
+
 	$error = 0;
 	$db->begin();
 
@@ -74,14 +74,14 @@ if ($action == 'validatehistory') {
 		$sql1 .= " WHERE fd.fk_product = p.rowid  AND accnt.fk_pcg_version = syst.pcg_version AND syst.rowid=".$conf->global->CHARTOFACCOUNTS;
 		$sql1 .= " AND accnt.active = 1 AND p.accountancy_code_sell=accnt.account_number";
 		$sql1 .= " AND fd.fk_code_ventilation = 0";
-	} else {	
+	} else {
 		$sql1 = "UPDATE " . MAIN_DB_PREFIX . "facturedet as fd, " . MAIN_DB_PREFIX . "product as p, " . MAIN_DB_PREFIX . "accountingaccount as accnt , ".MAIN_DB_PREFIX."accounting_system as syst";
 		$sql1 .= " SET fd.fk_code_ventilation = accnt.rowid";
 		$sql1 .= " WHERE fd.fk_product = p.rowid  AND accnt.fk_pcg_version = syst.pcg_version AND syst.rowid=".$conf->global->CHARTOFACCOUNTS;
 		$sql1 .= " AND accnt.active = 1 AND p.accountancy_code_sell=accnt.account_number";
 		$sql1 .= " AND fd.fk_code_ventilation = 0";
 	}
-	
+
 	$resql1 = $db->query($sql1);
 	if (! $resql1) {
 		$error ++;
@@ -162,7 +162,7 @@ $sql .= "  LEFT JOIN ".MAIN_DB_PREFIX."accountingaccount as aa ON aa.rowid = fd.
 $sql .= " WHERE f.datef >= '".$db->idate(dol_get_first_day($y,1,false))."'";
 $sql .= "  AND f.datef <= '".$db->idate(dol_get_last_day($y,12,false))."'";
 
-if (! empty($conf->multicompany->enabled)) 
+if (! empty($conf->multicompany->enabled))
 {
   $sql .=" AND f.entity = '".$conf->entity."'";
 }
@@ -242,7 +242,7 @@ $sql .= "  LEFT JOIN ".MAIN_DB_PREFIX."facture as f ON f.rowid = fd.fk_facture";
 $sql .= " WHERE f.datef >= '".$db->idate(dol_get_first_day($y,1,false))."'";
 $sql .= "  AND f.datef <= '".$db->idate(dol_get_last_day($y,12,false))."'";
 
-if (! empty($conf->multicompany->enabled)) 
+if (! empty($conf->multicompany->enabled))
 {
   $sql .=" AND f.entity = '".$conf->entity."'";
 }
@@ -319,7 +319,7 @@ $sql .= "  LEFT JOIN ".MAIN_DB_PREFIX."facture as f ON f.rowid = fd.fk_facture";
 $sql .= " WHERE f.datef >= '".$db->idate(dol_get_first_day($y,1,false))."'";
 $sql .= "  AND f.datef <= '".$db->idate(dol_get_last_day($y,12,false))."'";
 
-if (! empty($conf->multicompany->enabled)) 
+if (! empty($conf->multicompany->enabled))
 {
   $sql .=" AND f.entity = '".$conf->entity."'";
 }

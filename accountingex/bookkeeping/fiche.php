@@ -3,7 +3,7 @@
  * Copyright (C) 2004-2005 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
  * Copyright (C) 2013      Florian Henry	      <florian.henry@open-concept.pro>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,17 +52,17 @@ $debit = price2num ( GETPOST ( 'debit' ) );
 $credit = price2num ( GETPOST ( 'credit' ) );
 
 if ($action == "confirm_update") {
-	
+
 	$error = 0;
-	
+
 	if ((intval ( $debit ) != 0) && (intval ( $credit ) != 0)) {
 		setEventMessage ( $langs->trans ( 'ErrorDebitCredit' ), 'errors' );
 		$error ++;
 	}
-	
+
 	if (empty ( $error )) {
 		$book = new BookKeeping ( $db );
-		
+
 		$result = $book->fetch ( $id );
 		if ($result < 0) {
 			setEventMessage ( $book->errors, 'errors' );
@@ -72,7 +72,7 @@ if ($action == "confirm_update") {
 			$book->label_compte = $label_compte;
 			$book->debit = $debit;
 			$book->credit = $credit;
-			
+
 			if (! empty ( $debit )) {
 				$book->montant = $debit;
 				$book->sens = 'D';
@@ -81,7 +81,7 @@ if ($action == "confirm_update") {
 				$book->montant = $credit;
 				$book->sens = 'C';
 			}
-			
+
 			$result = $book->update ();
 			if ($result < 0) {
 				setEventMessage ( $book->errors, 'errors' );
@@ -91,19 +91,19 @@ if ($action == "confirm_update") {
 			}
 		}
 	}
-} 
+}
 
 else if ($action == "add") {
-	
+
 	$error = 0;
 	if ((intval ( $debit ) != 0) && (intval ( $credit ) != 0)) {
 		setEventMessage ( $langs->trans ( 'ErrorDebitCredit' ), 'errors' );
 		$error ++;
 	}
-	
+
 	if (empty ( $error )) {
 		$book = new BookKeeping ( $db );
-		
+
 		$book->numero_compte = $numero_compte;
 		$book->code_tiers = $code_tiers;
 		$book->label_compte = $label_compte;
@@ -116,7 +116,7 @@ else if ($action == "add") {
 		$book->code_journal = GETPOST ( 'code_journal' );
 		$book->fk_doc = GETPOST ( 'fk_doc' );
 		$book->fk_docdet = GETPOST ( 'fk_docdet' );
-		
+
 		if (! empty ( $debit )) {
 			$book->montant = $debit;
 			$book->sens = 'D';
@@ -125,7 +125,7 @@ else if ($action == "add") {
 			$book->montant = $credit;
 			$book->sens = 'C';
 		}
-		
+
 		$result = $book->create_std ( $user );
 		if ($result < 0) {
 			setEventMessage ( $book->errors, 'errors' );
@@ -134,15 +134,15 @@ else if ($action == "add") {
 			$action = '';
 		}
 	}
-} 
+}
 
 else if ($action == "confirm_delete") {
 	$book = new BookKeeping ( $db );
-	
+
 	$result = $book->fetch ( $id );
-	
+
 	$piece_num = $book->piece_num;
-	
+
 	if ($result < 0) {
 		setEventMessage ( $book->errors, 'errors' );
 	} else {
@@ -152,11 +152,11 @@ else if ($action == "confirm_delete") {
 		}
 	}
 	$action = '';
-} 
+}
 
 else if ($action == "confirm_create") {
 	$book = new BookKeeping ( $db );
-	
+
 	$book->label_compte = '';
 	$book->debit = 0;
 	$book->credit = 0;
@@ -167,9 +167,9 @@ else if ($action == "confirm_create") {
 	$book->code_journal = GETPOST ( 'code_journal' );
 	$book->fk_doc = 0;
 	$book->fk_docdet = 0;
-	
+
 	$book->montant = 0;
-	
+
 	$result = $book->create_std ( $user );
 	if ($result < 0) {
 		setEventMessage ( $book->errors, 'errors' );
@@ -194,23 +194,23 @@ if ($action == 'delete') {
 }
 
 if ($action == 'create') {
-	
+
 	print_fiche_titre ( $langs->trans ( "CreateMvts" ) );
-	
+
 	$code_journal_array = array (
 		$conf->global->ACCOUNTINGEX_SELL_JOURNAL=>$conf->global->ACCOUNTINGEX_SELL_JOURNAL,
 		$conf->global->ACCOUNTINGEX_PURCHASE_JOURNAL=>$conf->global->ACCOUNTINGEX_PURCHASE_JOURNAL,
 		$conf->global->ACCOUNTINGEX_BANK_JOURNAL=>$conf->global->ACCOUNTINGEX_BANK_JOURNAL,
-		$conf->global->ACCOUNTINGEX_SOCIAL_JOURNAL=>$conf->global->ACCOUNTINGEX_SOCIAL_JOURNAL 
+		$conf->global->ACCOUNTINGEX_SOCIAL_JOURNAL=>$conf->global->ACCOUNTINGEX_SOCIAL_JOURNAL
 	);
-	
+
 	$book = new BookKeeping ( $db );
 	$next_num_mvt = $book->next_num_mvt ();
-	
+
 	print '<form action="' . $_SERVER ["PHP_SELF"] . '" name="create_mvt" method="post">';
 	print '<input type="hidden" name="action" value="confirm_create">' . "\n";
 	print '<input type="hidden" name="next_num_mvt" value="' . $next_num_mvt . '">' . "\n";
-	
+
 	print '<table class="border" width="100%">';
 	print '<tr class="pair">';
 	print '<td>' . $langs->trans ( "NumMvts" ) . '</td>';
@@ -221,11 +221,11 @@ if ($action == 'create') {
 	print '<td>';
 	print $html->select_date ( '', 'doc_date', '', '', '', "create_mvt", 1, 1 );
 	print '</td>';
-	
+
 	print '</tr>';
 	print '<tr class="pair">';
 	print '<td>' . $langs->trans ( "Codejournal" ) . '</td>';
-	
+
 	print '<td>' . $html->selectarray ( 'code_journal', $code_journal_array ) . '</td>';
 	print '</tr>';
 	print '<tr class="impair">';
@@ -239,7 +239,7 @@ if ($action == 'create') {
 	print '</table>';
 	print '<BR>';
 	print '<input type="submit" class="butAction" value="' . $langs->trans ( "Record" ) . '">';
-	
+
 	print '</form>';
 } else {
 	$book = new BookKeeping ( $db );
@@ -248,9 +248,9 @@ if ($action == 'create') {
 		setEventMessage ( $book->errors, 'errors' );
 	}
 	if (! empty ( $book->piece_num )) {
-		
+
 		print_fiche_titre ( $langs->trans ( "UpdateMvts" ) );
-		
+
 		print '<table class="border" width="100%">';
 		print '<tr class="pair">';
 		print '<td>' . $langs->trans ( "NumMvts" ) . '</td>';
@@ -273,18 +273,18 @@ if ($action == 'create') {
 		print '<td>' . $book->doc_type . '</td>';
 		print '</tr>';
 		print '</table>';
-		
+
 		$result = $book->fetch_all_per_mvt ( $piece_num );
 		if ($result < 0) {
 			setEventMessage ( $book->errors, 'errors' );
 		} else {
-			
+
 			print_fiche_titre ( $langs->trans ( "ListeMvts" ) );
 			print "<table class=\"noborder\" width=\"100%\">";
 			if (count ( $book->linesmvt ) > 0) {
-				
+
 				print '<tr class="liste_titre">';
-				
+
 				print_liste_field_titre ( $langs->trans ( "Numerocompte" ) );
 				print_liste_field_titre ( $langs->trans ( "Code_tiers" ) );
 				print_liste_field_titre ( $langs->trans ( "Labelcompte" ) );
@@ -292,16 +292,16 @@ if ($action == 'create') {
 				print_liste_field_titre ( $langs->trans ( "Credit" ) );
 				print_liste_field_titre ( $langs->trans ( "Amount" ) );
 				print_liste_field_titre ( $langs->trans ( "Sens" ) );
-				
+
 				print '<td></td>';
 				print "</tr>\n";
-				
+
 				foreach ( $book->linesmvt as $line ) {
 					$var = ! $var;
 					print "<tr $bc[$var]>";
-					
+
 					if ($action == 'update' && $line->id == $id) {
-						
+
 						print '<form action="' . $_SERVER ["PHP_SELF"] . '?piece_num=' . $book->piece_num . '" method="post">';
 						print '<input type="hidden" name="id" value="' . $line->id . '">' . "\n";
 						print '<input type="hidden" name="action" value="confirm_update">' . "\n";
@@ -312,7 +312,7 @@ if ($action == 'create') {
 						print '<td><input type="text" size="6" name="credit" value="' . price ( $line->credit ) . '"/></td>';
 						print '<td>' . $line->montant . '</td>';
 						print '<td>' . $line->sens . '</td>';
-						
+
 						print '<td>';
 						if ($user->rights->accountingex->access) {
 							print '<input type="submit" class="button" value="' . $langs->trans ( "Update" ) . '">';
@@ -327,7 +327,7 @@ if ($action == 'create') {
 						print '<td>' . $line->credit . '</td>';
 						print '<td>' . $line->montant . '</td>';
 						print '<td>' . $line->sens . '</td>';
-						
+
 						print '<td>';
 						if ($user->rights->accoutingex->access) {
 							print '<a href="./fiche.php?action=update&id=' . $line->id . '&piece_num=' . $line->piece_num . '">';
@@ -341,11 +341,11 @@ if ($action == 'create') {
 					}
 					print "</tr>\n";
 				}
-				
+
 				if ($action == "" || $action == 'add') {
 					$var = ! $var;
 					print "<tr $bc[$var]>";
-					
+
 					print '<form action="' . $_SERVER ["PHP_SELF"] . '?piece_num=' . $book->piece_num . '" method="post">';
 					print '<input type="hidden" name="action" value="add">' . "\n";
 					print '<input type="hidden" name="doc_date" value="' . $book->doc_date . '">' . "\n";
@@ -362,10 +362,10 @@ if ($action == 'create') {
 					print '<td></td>';
 					print '<td></td>';
 					print '<td><input type="submit" class="button" value="' . $langs->trans ( "Save" ) . '"></td>';
-					
+
 					print '</tr>';
 				}
-				
+
 				print "</table>";
 			}
 		}

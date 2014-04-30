@@ -3,7 +3,7 @@
  * Copyright (C) 2005      Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013      Florian Henry	      <florian.henry@open-concept.pro>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,8 +46,8 @@ if ($year == 0 )
 {
   $year_current = strftime("%Y",time());
   $year_start = $year_current;
-} 
-else 
+}
+else
 {
   $year_current = $year;
   $year_start = $year;
@@ -81,7 +81,7 @@ if ($resql)
   $num = $db->num_rows($resql);
   $i = 0;
 
- 
+
 
   print '<table class="liste" width="100%">';
   print '<tr class="liste_titre">';
@@ -116,7 +116,7 @@ if ($resql)
       print '<td align="right">'.$obj->debit.'</td>';
       print '<td align="right">'.$obj->credit.'</td>';
       print '<td align="right">'.$obj->montant.'</td>';
-            
+
       print "</tr>\n";
       $i++;
     }

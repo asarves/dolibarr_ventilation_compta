@@ -74,7 +74,7 @@ if ($action == 'add')
     if (! GETPOST('cancel','alpha'))
     {
         $error=0;
-        
+
         $object->label		  = GETPOST('label','alpha');
         $object->datestart	= dol_mktime(12, 0, 0, GETPOST('startmonth','int'), GETPOST('startday','int'), GETPOST('startyear','int'));
         $object->dateend  	= dol_mktime(12, 0, 0, GETPOST('endmonth','int'), GETPOST('endday','int'), GETPOST('endyear','int'));
@@ -121,17 +121,17 @@ if ($action == 'add')
         header("Location: index.php");
         exit;
     }
-    
-/*    
+
+/*
     if (! GETPOST('cancel','alpha'))
     {
         $error=0;
-    
+
       	// Check values
       	$datestart = dol_mktime(12, 0, 0, $_POST['startmonth'], $_POST['startday'], $_POST['startyear']);
         $dateend = dol_mktime(12, 0, 0, $_POST['endmonth'], $_POST['endday'], $_POST['endyear']);
         $label = $_POST['label'];
-            
+
           if (empty($label))
           {
               $mesgs[]='<div class="error">'.$langs->trans("ErrorFieldRequired",$langs->trans("Label")).'</div>';
@@ -144,11 +144,11 @@ if ($action == 'add')
               $error++;
               //$action='create';
           }
-    
+
     	    if (! $error)
     	    {
     	      $this->db->begin();
-    	       
+
         		$sql = "INSERT INTO ".MAIN_DB_PREFIX."accountingfiscalyear";
         		$sql.= " (label, begin, end, statut, entity)";
         		$sql.= " VALUES('".$label."',";
@@ -157,7 +157,7 @@ if ($action == 'add')
         		$sql.= " ' 0,";
         		$sql.= " ".$conf->entity."'";
             $sql.=')';
-        
+
         		dol_syslog(get_class($this)."::create_label sql=".$sql);
         		if ($this->db->query($sql))
         		{
@@ -171,7 +171,7 @@ if ($action == 'add')
         		}
     	    }
     }
-*/    	  
+*/
 }
 
 // Rename field
@@ -318,16 +318,16 @@ if ($action == 'create')
     $datestart=($datetmp==''?(empty($conf->global->MAIN_AUTOFILL_DATE)?-1:0):$datetmp);
     $datetmp=dol_mktime(12,0,0,$_POST['endmonth'],$_POST['endday'],$_POST['endyear']);
     $dateend=($datetmp==''?-1:$datetmp);
-        
+
     print "<br>";
     print_titre($langs->trans('NewFiscalYear'));
 
     print '<form name="add" action="'.$_SERVER["PHP_SELF"].'" method="post">';
     print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
     print '<input type="hidden" name="action" value="add">';
-    
+
     print '<table class="border" width="100%">';
-    
+
     // Label
     print '<tr>';
     print '<td class="fieldrequired">'.$langs->trans("Label").'</td><td class="valeur"><input type="text" name="label" size="40"></td>';
@@ -344,12 +344,12 @@ if ($action == 'create')
     print '<tr>';
     print '<td class="fieldrequired">'.$langs->trans("Statut").'</td><td class="valeur">'.$form->selectarray('statut',$statut2label,GETPOST('statut')).'</td>';
     print '</tr>';
-    
+
     print '</table>';
-    
+
     print '<div align="center"><br><input type="submit" name="button" class="button" value="'.$langs->trans("Save").'"> &nbsp; ';
     print '<input type="submit" name="button" class="button" value="'.$langs->trans("Cancel").'"></div>';
-    
+
     print '</form>';
 }
 

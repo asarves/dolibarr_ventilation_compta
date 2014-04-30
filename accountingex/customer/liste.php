@@ -3,7 +3,7 @@
  * Copyright (C) 2004      Eric Seigne          <eric.seigne@ryxeo.com>
  * Copyright (C) 2004-2006 Laurent Destailleur  <eldy@users.sourceforge.net>
  * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
- * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr> 
+ * Copyright (C) 2013-2014 Alexandre Spangaro   <alexandre.spangaro@fidurex.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,14 +62,14 @@ if($_POST["action"] == 'ventil')
 		$mesLignesCochees=$_POST['mesCasesCochees'];
 		$mesCodesVentilChoisis = $_POST['codeventil'];
 		$cpt = 0;
-		foreach($mesLignesCochees as $maLigneCochee) 
+		foreach($mesLignesCochees as $maLigneCochee)
 		{
 			//print '<div><font color="red">id selectionnee : '.$monChoix."</font></div>";
 			$maLigneCourante = split("_", $maLigneCochee);
 			$monId = $maLigneCourante[0];
 			$monNumLigne = $maLigneCourante[1];
 			$monCompte = $mesCodesVentilChoisis[$monNumLigne];
-  
+
 			$sql = " UPDATE ".MAIN_DB_PREFIX."facturedet";
 			$sql .= " SET fk_code_ventilation = ".$monCompte;
 			$sql .= " WHERE rowid = ".$monId;
@@ -78,13 +78,13 @@ if($_POST["action"] == 'ventil')
 			{
 				print '<div><font color="green">'.$langs->trans("Lineofinvoice").' '.$monId.' '.$langs->trans("VentilatedinAccount").' : '.$monCompte.'</font></div>';
 			}
-			else 
+			else
 			{
 				print '<div><font color="red">'.$langs->trans("ErrorDB").' : '.$langs->trans("Lineofinvoice").' '.$monId.' '.$langs->trans("NotVentilatedinAccount").' : '.$monCompte.'<br/> <pre>'.$sql.'</pre></font></div>';
 			}
-  
-			$cpt++; 
-  
+
+			$cpt++;
+
 		}
 	}
 	else
@@ -94,7 +94,7 @@ if($_POST["action"] == 'ventil')
 	print '<div><font color="red">'.$langs->trans("EndProcessing").'</font></div>';
 }
 
-/* 
+/*
  * Liste des comptes
  */
 
@@ -111,8 +111,8 @@ $cgn = array();
 if ($resultCompte)
 {
 	$numCompte = $db->num_rows($resultCompte);
-	$iCompte = 0; 
-  
+	$iCompte = 0;
+
 	while ($iCompte < $numCompte)
 	{
 		$rowCompte = $db->fetch_row($resultCompte);
@@ -173,35 +173,35 @@ if ($result)
 	{
 		$objp = $db->fetch_object($result);
 		$var=!$var;
-		
+
 		// product_type: 0 = service ? 1 = product
 		// if product does not exist we use the value of product_type provided in facturedet to define if this is a product or service
 		// issue : if we change product_type value in product DB it should differ from the value stored in facturedet DB !
 		$code_sell_notset = '';
-		
+
     if (empty($objp->code_sell)) {
       $code_sell_notset = 'color:red';
-			
+
       if (! empty($objp->type))
       {
-				if($objp->type == 1) 
+				if($objp->type == 1)
         {
           $objp->code_sell = (! empty($conf->global->COMPTA_PRODUCT_SOLD_ACCOUNT)?$conf->global->COMPTA_PRODUCT_SOLD_ACCOUNT:$langs->trans("CodeNotDef"));
 				}
-        else 
+        else
         {
           $objp->code_sell = (! empty($conf->global->COMPTA_SERVICE_SOLD_ACCOUNT)?$conf->global->COMPTA_SERVICE_SOLD_ACCOUNT:$langs->trans("CodeNotDef"));
 			  }
-      } 
-      else 
+      }
+      else
       {
         $code_sell_notset = 'color:blue';
-				
+
         if($objp->type == 1)
-        { 
+        {
           $objp->code_sell = (! empty($conf->global->COMPTA_PRODUCT_SOLD_ACCOUNT)?$conf->global->COMPTA_PRODUCT_SOLD_ACCOUNT:$langs->trans("CodeNotDef"));
 				}
-        else 
+        else
         {
           $objp->code_sell = (! empty($conf->global->COMPTA_SERVICE_SOLD_ACCOUNT)?$conf->global->COMPTA_SERVICE_SOLD_ACCOUNT:$langs->trans("CodeNotDef"));
 			  }
@@ -223,24 +223,24 @@ if ($result)
 		if ($product_static->id) print $product_static->getNomUrl(1);
 		else print '&nbsp;';
 		print '</td>';
-		
+
 		print '<td>'.dol_trunc($objp->product_label,24).'</td>';
 		print '<td>'.nl2br(dol_trunc($objp->description,32)).'</td>';
 
 		print '<td align="right">';
 		print price($objp->total_ht);
 		print '</td>';
-		
+
 		print '<td align="center" style="'.$code_sell_notset.'">';
 	  print $objp->code_sell;
-		print '</td>';	
-		
+		print '</td>';
+
 
 		// Colonne choix du compte
 		print '<td align="center">';
 		print $form->selectarray("codeventil[]",$cgs, $cgn[$objp->code_sell]);
 		print '</td>';
-        
+
 		// Colonne choix ligne a ventiler
 		print '<td align="center">';
 		print '<input type="checkbox" name="mesCasesCochees[]" value="'.$objp->rowid."_".$i.'"'.($objp->code_sell?"checked":"").'/>';

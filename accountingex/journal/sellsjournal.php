@@ -27,7 +27,7 @@
  *		\ingroup    Accounting Expert
  *		\brief      Page with sells journal
  */
- 
+
 // Dolibarr environment
 $res=@include("../main.inc.php");
 if (! $res && file_exists("../main.inc.php")) $res=@include("../main.inc.php");
@@ -35,7 +35,7 @@ if (! $res && file_exists("../../main.inc.php")) $res=@include("../../main.inc.p
 if (! $res && file_exists("../../../main.inc.php")) $res=@include("../../../main.inc.php");
 if (! $res) die("Include of main fails");
 
-// Class				
+// Class
 dol_include_once("/core/lib/report.lib.php");
 dol_include_once("/core/lib/date.lib.php");
 dol_include_once("/accountingex/core/lib/account.lib.php");
@@ -137,8 +137,8 @@ if ($result)
    	    // les variables
    	    $cptcli = (! empty($conf->global->COMPTA_ACCOUNT_CUSTOMER))?$conf->global->COMPTA_ACCOUNT_CUSTOMER:$langs->trans("CodeNotDef");
    	    $compta_soc = (! empty($obj->code_compta))?$obj->code_compta:$cptcli;
-		
-		
+
+
 		$compta_prod = $obj->compte;
 		if (empty($compta_prod))
 		{
@@ -250,12 +250,12 @@ if (GETPOST('action') == 'writeBookKeeping')
 if (GETPOST('action') == 'export_csv')
 {
     $sep = $conf->global->ACCOUNTINGEX_SEPARATORCSV;
-    
+
     header( 'Content-Type: text/csv' );
     header( 'Content-Disposition: attachment;filename=journal_ventes.csv');
-  	
+
     $companystatic=new Client($db);
-    
+
     if ($conf->global->ACCOUNTINGEX_MODELCSV == 1) // Modèle Cegid Expert
     {
       foreach ($tabfac as $key => $val)
@@ -263,9 +263,9 @@ if (GETPOST('action') == 'export_csv')
   	    $companystatic->id=$tabcompany[$key]['id'];
 	    	$companystatic->name=$tabcompany[$key]['name'];
 	    	$companystatic->client=$tabcompany[$key]['code_client'];
-        
+
         $date = dol_print_date($db->jdate($val["date"]),'%d%m%Y');
-    		
+
         print $date.$sep;
     		print $conf->global->ACCOUNTINGEX_SELL_JOURNAL.$sep;
         print length_accountg($conf->global->COMPTA_ACCOUNT_CUSTOMER).$sep;
@@ -278,7 +278,7 @@ if (GETPOST('action') == 'export_csv')
     		}
         print $val["ref"];
     		print "\n";
-    		
+
         // Production
     		foreach ($tabht[$key] as $k => $mt)
     		{
@@ -320,7 +320,7 @@ if (GETPOST('action') == 'export_csv')
         $companystatic->id=$tabcompany[$key]['id'];
 	    	$companystatic->name=$tabcompany[$key]['name'];
 	    	$companystatic->client=$tabcompany[$key]['code_client'];
-        
+
         $date = dol_print_date($db->jdate($val["date"]),'day');
     		print '"'.$date.'"'.$sep;
     		print '"'.$val["ref"].'"'.$sep;
@@ -353,7 +353,7 @@ if (GETPOST('action') == 'export_csv')
     		  }
     		}
   	  }
-    } 
+    }
 }
 else
 {
@@ -374,11 +374,11 @@ $period=$form->select_date($date_start,'date_start',0,0,0,'',1,0,1).' - '.$form-
 report_header($nom,$nomlink,$period,$periodlink,$description,$builddate,$exportlink, array('action'=>'') );
 
 
-	
+
 	print '<input type="button" class="button" style="float: right;" value="Export CSV" onclick="launch_export();" />';
-	
+
 	print '<input type="button" class="button" value="'.$langs->trans("WriteBookKeeping").'" onclick="writeBookKeeping();" />';
-	
+
 	print '
 	<script type="text/javascript">
 		function launch_export() {
@@ -397,7 +397,7 @@ report_header($nom,$nomlink,$period,$periodlink,$description,$builddate,$exportl
 	 * Show result array
 	 */
   print '<br><br>';
-  
+
   $i = 0;
 	print "<table class=\"noborder\" width=\"100%\">";
 	print "<tr class=\"liste_titre\">";

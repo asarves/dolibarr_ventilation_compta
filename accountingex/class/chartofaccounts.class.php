@@ -89,7 +89,7 @@ if ($action == 'add')
         	$mesg[]=$langs->trans("ErrorNoValueForRadioType");
         	$action = 'create';
         }
-        if  (((GETPOST('type')=='radio') || (GETPOST('type')=='checkbox')) && GETPOST('param')) 
+        if  (((GETPOST('type')=='radio') || (GETPOST('type')=='checkbox')) && GETPOST('param'))
         {
         	// Construct array for parameter (value of select list)
     		$parameters = GETPOST('param');
@@ -97,7 +97,7 @@ if ($action == 'add')
     		foreach($parameters_array as $param_ligne)
     		{
     			if (!empty($param_ligne)) {
-	    			if (preg_match_all('/,/',$param_ligne,$matches)) 
+	    			if (preg_match_all('/,/',$param_ligne,$matches))
 	    			{
 	    				if (count($matches[0])>1) {
 	    					$error++;
@@ -106,7 +106,7 @@ if ($action == 'add')
 	    					$action = 'create';
 	    				}
 	    			}
-	    			else 
+	    			else
 	    			{
 	    				$error++;
 	    				$langs->load("errors");
@@ -114,7 +114,7 @@ if ($action == 'add')
 	    				$action = 'create';
 	    			}
     			}
-    		}  	
+    		}
         }
 
 	    if (! $error)
@@ -141,8 +141,8 @@ if ($action == 'add')
     					list($key,$value) = explode(',',$param_ligne);
     					$params['options'][$key] = $value;
     				}
-    			}		 
-    			
+    			}
+
                 $result=$extrafields->addExtraField($_POST['attrname'],$_POST['label'],$_POST['type'],$_POST['pos'],$extrasize,$elementtype,(GETPOST('unique')?1:0),(GETPOST('required')?1:0),$default_value,$params);
     			if ($result > 0)
     			{
@@ -166,7 +166,7 @@ if ($action == 'add')
     			$action = 'create';
     		}
 	    }
-	    else 
+	    else
 	    {
 	    	setEventMessage($mesg,'errors');
 	    }

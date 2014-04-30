@@ -2,7 +2,7 @@
 /* Copyright (C) 2005-2012 Christophe Battarel  <christophe.battarel@altairis.fr>
  * Copyright (C) 2005-2012 Agnes Rambaud        <agnes.rambaud@altairis.fr>
  * Copyright (C) 2011-2014 Alexandre Spangaro   <alexandre.spangaro@gmail.com>
- * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com> 
+ * Copyright (C) 2013-2014 Olivier Geffroy      <jeff@jeffinfo.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ class Accountancy
     var $label;
     var $account_number;
     var $account_parent;
-    
+
     /**
      *  Constructor
      *
@@ -51,7 +51,7 @@ class Accountancy
     {
         $this->db = $db;
     }
-    
+
     /**
      *    Load list of accounts
      *
@@ -60,14 +60,14 @@ class Accountancy
     function load_accounts($db, $account_number)
     {
         global $conf;
-        
+
     	  $sql = "SELECT a.rowid, a.fk_pcg_version, a.account_number, a.label, a.active";
     	  $sql.= " , s.rowid, s.pcg_version";
     	  $sql.= " FROM ".MAIN_DB_PREFIX."accountingaccount as a";
     	  $sql.= " ,".MAIN_DB_PREFIX."accountingsystem as s";
         $sql.= " WHERE s.pcg_version=a.fk_pcg_version AND a.active='1' AND s.rowid=".$conf->global->CHARTOFACCOUNTS;
         $sql.= " ORDER BY a.account_number";
-        
+
         $result = $db->query($sql);
       	if ($result)
         {
@@ -79,13 +79,13 @@ class Accountancy
           			$listaccounts .= " selected=\"true\"";
           			$compte_sel = "";
           		}
-          		else 
+          		else
               {
           			$compte_sel = $_POST["compte_ligne_".$ligne];
           		}
-      		    
+
               $listaccounts .= ">&nbsp;</option>";
-            
+
               while ($i <= $num)
               {
                   $obj = $db->fetch_object($result);
@@ -132,12 +132,12 @@ class Piece
 	var $mrg;
 	var $code_lettrage;
 	var $lignes;
-	
+
 	function __construct($db)
     {
         $this->db = $db;
     }
-    
+
     /**
      *    Load list of accounts
      *
@@ -146,14 +146,14 @@ class Piece
     function load_accounts($db, $lignes)
     {
         global $conf, $user;
-        
+
     	  $sql = "SELECT a.rowid, a.fk_pcg_version, a.account_number, a.label, a.active";
     	  $sql.= " , s.rowid, s.pcg_version";
     	  $sql.= " FROM ".MAIN_DB_PREFIX."accountingaccount as a";
     	  $sql.= " ,".MAIN_DB_PREFIX."accountingsystem as s";
         $sql.= " WHERE s.pcg_version=a.fk_pcg_version AND a.active='1' AND s.rowid=".$conf->global->CHARTOFACCOUNTS;
         $sql.= " ORDER BY a.account_number";
-        
+
         $result = $db->query($sql);
       	if ($result)
         {
@@ -165,13 +165,13 @@ class Piece
           			$listaccounts .= " selected=\"true\"";
           			$compte_sel = "";
           		}
-          		else 
+          		else
               {
           			$compte_sel = $_POST["compte_ligne_".$ligne];
           		}
-      		    
+
               $listaccounts .= ">&nbsp;</option>";
-            
+
               while ($i <= $num)
               {
                   $obj = $db->fetch_object($result);
@@ -184,13 +184,13 @@ class Piece
       		  return $listaccounts;
       	}
     }
-	
+
 	function Piece($db, $rowid='')
 	{
 		$this->db = $db;
 		if ($rowid != '') return $this->fetch($rowid);
 	}
-	
+
 	function fetch($rowid='')
 	{
 		if ($rowid != '')
@@ -249,7 +249,7 @@ class Piece
 		$this->montant_tva = number_format($montant_tva, 2, '.', '');
 		$this->montant_ht = number_format($montant_ht, 2, '.', '');
 		$this->mrg=$mrg;
-			
+
 		$sql="INSERT INTO ".MAIN_DB_PREFIX."altacompta_pieces (journal, num_piece, date_piece, montant, libelle, tiers, code_origine, exportee, date_creation, reference, type_piece, montant_ht, montant_tva, mrg) VALUES('$this->journal', '$this->num_piece', '$this->date_piece', '$this->montant', '".addslashes($this->libelle)."', '$this->tiers', '$this->code_origine', '$this->exportee', now(), '$this->reference', '$this->type_piece', '$this->montant_ht', '$this->montant_tva', '$this->mrg')";
 
 		if ( $this->db->query($sql) ) {
@@ -264,7 +264,7 @@ class Piece
 			return null;
 		}
 	}
-	
+
 	function getNewPieceNumber($journal) {
 			$this->num_piece = null;
 			// r�up�ation dernier numero de piece
@@ -284,14 +284,14 @@ class Piece
 					$this->num_piece = 1;
 					$sql = "INSERT INTO ".MAIN_DB_PREFIX."altacompta_compteurs (type, parm, compteur) VALUES('NUMPIECE', '$journal', '$this->num_piece')";
 					$result = $this->db->query($sql);
-				}	
+				}
 			}
 			return $this->num_piece;
 	}
 }
 
 class Ligne {
-	
+
 	var $db;
 	var $rowid;
 	var $nature;
@@ -348,7 +348,7 @@ class Ligne {
 		$this->sens = $sens;
 		$this->libelle = $libelle;
 		$this->nature = $nature;
-		
+
 		$sql="INSERT INTO ".MAIN_DB_PREFIX."altacompta_lignes (id_piece, num_ligne, journal, num_piece, compte, montant, sens, date_creation, libelle, nature) VALUES('$this->id_piece', '$this->num_ligne', '$this->journal', '$this->num_piece', '$this->compte', '$this->montant', '$this->sens', now(), '".addslashes($this->libelle)."', '$this->nature')";
 
 		if ( $this->db->query($sql) ) {
@@ -364,15 +364,15 @@ class Ligne {
 			return null;
 		}
 	}
-}	
+}
 
-class Type_Piece 
+class Type_Piece
 {
 	var $db;
 	var $rowid;
 	var $libelle;
 	var $journal;
-	
+
 	function Type_Piece($db, $rowid='')
 	{
 		$this->db = $db;
@@ -393,7 +393,7 @@ class Type_Piece
 		$this->rowid = $obj->rowid;
 		$this->libelle = stripslashes($obj->libelle);
 		$this->journal = $obj->journal;
-		
+
 		return $this;
 	}
 
@@ -441,14 +441,14 @@ class Type_Piece
 		}
 	}
 }
-class Compte 
+class Compte
 {
 	var $db;
 	var $rowid;
 	var $libelle;
 	var $numero;
 	var $journal;
-	
+
 	function Compte($db, $rowid='')
 	{
 		$this->db = $db;
@@ -470,7 +470,7 @@ class Compte
 		$this->libelle = stripslashes($obj->libelle);
 		$this->numero = $obj->numero;
 		$this->journal = $obj->journal;
-		
+
 		return $this;
 	}
 
@@ -487,7 +487,7 @@ class Compte
 			}
 			else return null;
 		}
-		
+
 		return null;
 	}
 	function getLibelle($rowid = '')
@@ -506,7 +506,7 @@ class Compte
 		if ($rowid != '') $this->fetch($rowid);
 		return $this->journal;
 	}
-	
+
 	function nouveauCompte($numero, $libelle)
 	{
 		$this->numero = $numero;
@@ -542,12 +542,12 @@ class Compte
 	}
 }
 
-class Journal 
+class Journal
 {
 	var $db;
 	var $code_journal;
 	var $libelle;
-	
+
 	function Journal($db, $code_journal='')
 	{
 		$this->db = $db;
@@ -567,7 +567,7 @@ class Journal
 		}
 		$this->code_journal = $obj->code_journal;
 		$this->libelle = stripslashes($obj->libelle);
-		
+
 		return $this;
 	}
 
@@ -576,7 +576,7 @@ class Journal
 		if ($code_journal != '') $this->fetch($code_journal);
 		return $this->libelle;
 	}
-	
+
 	function nouveauJournal($code, $libelle)
 	{
 			$this->code_journal = $code;
@@ -610,7 +610,7 @@ class Journal
 	}
 }
 
-class Nature 
+class Nature
 {
 	var $db;
 	var $rowid;
@@ -618,7 +618,7 @@ class Nature
 	var $libelle;
 	var $compte;
 	var $tiers;
-	
+
 	function Nature($db, $rowid = '')
 	{
 		$this->db = $db;
@@ -640,7 +640,7 @@ class Nature
 		$this->compte = $obj->id_compte_associe;
 		$this->tiers = $obj->id_compte_tiers;
 		$this->type_nature = $obj->type_nature;
-		
+
 		return $this;
 	}
 
@@ -703,13 +703,13 @@ class Nature
 	}
 }
 
-class Lettrage 
+class Lettrage
 {
 	var $db;
 	var $rowid;
 	var $code_lettrage;
 	var $date_lettrage;
-	
+
 	function Lettrage($db, $rowid = '')
 	{
 		$this->db = $db;
@@ -735,19 +735,19 @@ class Lettrage
 					$this->code_lettrage = 1;
 					$sql = "INSERT INTO ".MAIN_DB_PREFIX."altacompta_compteurs (type, parm, compteur) VALUES('LETTRAGE', '', '$this->code_lettrage')";
 					$result = $this->db->query($sql);
-				}	
+				}
 			}
 			return $this->code_lettrage;
 	}
 }
 
-class Param 
+class Param
 {
 	var $db;
 	var $rowid;
 	var $cle;
 	var $valeur;
-	
+
 	function Param($db, $cle='')
 	{
 		$this->db = $db;
